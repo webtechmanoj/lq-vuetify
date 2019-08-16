@@ -24,9 +24,11 @@ export default Vue.extend({
             }, this.$attrs),
         }, this.$scopedSlots.default({
             model: this.formValues,
-            validate: this.validate,
-            submit: this.submit,
-            errors: this.formErrors
+            errors: this.formErrors,
+            push: this.push,
+            unshift: this.unshift,
+            remove: this.remove,
+            removeError: this.removeError,
         }))
     }
 })
