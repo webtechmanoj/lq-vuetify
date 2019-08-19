@@ -58,8 +58,7 @@ export default Vue.extend({
                 class: this.getClass(),
                 on: {
                     ...self.$listeners,
-                    input: function (value) {
-                        // console.log('I am d', self.id, self.isNeedToUpdateStore)
+                    input: function (value) {                         
                         if (self.isNeedToUpdateStore) {
                             self.onInput(value)
                         }
@@ -99,7 +98,8 @@ export default Vue.extend({
                         }
                         self.$emit('click', event)
                         self.validateIfEventMatch('click')
-                    }
+                    },
+                    ...self.customEvents()
                 },
                 props: self.getProps(),
                 domProps: self.getDomProps(),
@@ -124,6 +124,9 @@ export default Vue.extend({
                 ((typeof newValue === 'string' || typeof newValue === 'number') && newValue !== oldValue) || 
                 (typeof newValue === 'object' && !isEqual(newValue, oldValue))
             )
+        },
+        customEvents() {
+            return {}
         },
         _makeSlotReadyToRender (createElement, slots) {
             const slotNames = Object.keys(slots);

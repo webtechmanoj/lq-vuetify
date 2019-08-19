@@ -8,30 +8,51 @@ export default TextField.extend({
         isOutputObject: {
             type: Boolean,
             default: () => false
+        },
+        fetchOnSearch: {
+          type: Boolean,
+          default: () => false
+        },
+        responseKey: {
+          type: String,
+          default: () => 'data.data'
+        },
+        searchKeyName: {
+          type: String,
+          default: () => 'search'
         }
-        
     },
     data () {
         return {
-            vuetifyTagName: 'v-select'
+            vuetifyTagName: 'v-select',
+            response: [],
+            requesting: false,
         }
     },
     computed: {
         items () {
-            return this.options
+          return this.action ? this.response : this.options
         }
     },
     created () {
         this.$lqForm.addProp(this.lqForm.name, this.id, 'formatter', this.formatter)
+        if (!this.fetchOnSearch && this.action) {
+          this.fetchDataFromServer('');
+        }
     },
     methods: {
         getProps () {
+            return this.defaultSelectProps();
+        },
+        defaultSelectProps() {
             return {
                 ...this._defaultProps(),
                 returnObject: true,
-                items: this.items
+                items: this.items,
+                loading: this.requesting
             }
         },
+
         formatter () {
             const output = this.$refs.lqel.selectedItems.map(selectedItem => {
               if (this.isOutputObject) {
@@ -59,5 +80,16 @@ export default TextField.extend({
             })
             return output ? (this.$refs.lqel.multiple ? output : output[0]) : null
         },
+        fetchDataFromServer(search) {
+          this.requesting = true;
+          this.$axios(this.action, {
+            search
+          }).then((response) => {
+            this.requesting = false;
+            this.response = this.$helper.getProp(response, this.responseKey);
+          }).catch(() => {
+              this.requesting = false
+          })
+        }
     }
 })
