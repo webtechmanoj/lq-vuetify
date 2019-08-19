@@ -36,7 +36,7 @@ export default TextField.extend({
     },
     created () {
         this.$lqForm.addProp(this.lqForm.name, this.id, 'formatter', this.formatter)
-        if (!this.fetchOnSearch && this.action) {
+        if (this.action) {
           this.fetchDataFromServer('');
         }
     },
@@ -82,9 +82,7 @@ export default TextField.extend({
         },
         fetchDataFromServer(search) {
           this.requesting = true;
-          this.$axios(this.action, {
-            search
-          }).then((response) => {
+          this.$axios(this.action + '?' + this.$helper.objectToQueryString({search})).then((response) => {
             this.requesting = false;
             this.response = this.$helper.getProp(response, this.responseKey);
           }).catch(() => {

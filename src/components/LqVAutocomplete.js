@@ -3,17 +3,18 @@ export default Select.extend({
     name: 'lq-v-autocomplete',
     data () {
         return {
-            vuetifyTagName: 'v-autocomplete'
+            vuetifyTagName: 'v-autocomplete',
+            search: ''
         }
     },
     methods: {
     	customEvents() {
     		return {
 	    		'update:searchInput': (search) => {
-	    			// console.log('searchg', search)
-	    			if (this.fetchOnSearch && this.action && search) {
-			          this.fetchDataFromServer(search);
+	    			if (this.fetchOnSearch && this.action && search && search !== this.search) {
+			        	this.fetchDataFromServer(search);
 			        }
+			        this.search = search
 	    		}
 	    	}
     	}
