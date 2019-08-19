@@ -20,18 +20,69 @@ export default TextField.extend({
         searchKeyName: {
           type: String,
           default: () => 'search'
-        }
+        },
+        groupBy: String,
+        uncategorisedLabel: {
+          default: () => 'Uncategorised'
+        },
+        masterOf: Array,
     },
     data () {
         return {
             vuetifyTagName: 'v-select',
             response: [],
             requesting: false,
+            dependencies: {},
         }
     },
     computed: {
         items () {
           return this.action ? this.response : this.options
+        },
+        /**
+         * Filter out the group name from given options
+         */
+        groups () {
+          const options = this.items;
+          let group_names = [];
+          options.map((opt) => {
+            let group_name = this.$helper.getProp(opt, this.groupBy);
+            group_name = group_name ? group_name : this.uncategorisedLabel;
+            if (group_names.indexOf(group_name) === -1) {
+              group_names.push(group_name);
+            }
+          });
+          return group_names;
+        },
+        finalItems () {
+          return this.groupBy ? this.groupedOptions : this.items
+        },
+        /**
+         * Make grouped options
+         */
+        groupedOptions () {
+          const options = this.items;
+          let grouped_options = {};
+          options.map((opt) => {
+            let group_name = this.$helper.getProp(opt, this.groupBy);
+            group_name = group_name ? group_name : this.uncategorisedLabel;
+            if (!grouped_options[group_name]) {
+              grouped_options[group_name] = [];
+            }
+            grouped_options[group_name].push(opt);
+          });
+          let _options = [];
+          const group_length = this.groups.length;
+          this.groups.forEach((g, index) => {
+              _options.push({header: g})
+              console.log('grouped_options[g])', grouped_options[g])
+              _options = _options.concat(grouped_options[g])
+              if (index > 0 && index < group_length - 1) {
+                _options.push({divider: true})
+              }
+          })
+          console.log(_options, '_options')
+          return _options;
         }
     },
     created () {
@@ -39,8 +90,31 @@ export default TextField.extend({
         if (this.action) {
           this.fetchDataFromServer('');
         }
+        this.$root.$on(`${this.lqForm.name}_${this.id}_change_dependency`, (id, value) => {
+            this.setValue(this.$refs.lqel.multiple ? [] : null, true, false)
+            this.dependencies[id] = value;
+            if (this.action) {
+              this.fetchDataFromServer('');
+            }
+        })
     },
     methods: {
+        onChange (val) {
+            this.internalChange = false
+            this.$emit('change', val)
+            // this.$root.$emit()
+            if (!this.masterOf) return;
+
+            this.masterOf.map((dependency) => {
+                const isString = typeof dependency === 'string'
+                const id = isString ? dependency : dependency.id
+                const isValueArray = this.$helper.isArray(val)
+                const myVal = !isValueArray ? [val] : val; 
+                const values = myVal.map(selectedItem => this.$refs.lqel.getValue(selectedItem))
+                
+                this.$root.$emit(`${this.lqForm.name}_${id}_change_dependency`, this.id, isValueArray ? values : values[0])
+            })
+        },
         getProps () {
             return this.defaultSelectProps();
         },
@@ -48,7 +122,7 @@ export default TextField.extend({
             return {
                 ...this._defaultProps(),
                 returnObject: true,
-                items: this.items,
+                items: this.finalItems,
                 loading: this.requesting
             }
         },
@@ -82,7 +156,11 @@ export default TextField.extend({
         },
         fetchDataFromServer(search) {
           this.requesting = true;
-          this.$axios(this.action + '?' + this.$helper.objectToQueryString({search})).then((response) => {
+          let data = {[this.searchKeyName]: search};
+          if (this.dependencies && Object.keys(this.dependencies).length) {
+            data = {...data, ...this.dependencies}
+          }
+          this.$axios(this.action + '?' + this.$helper.objectToQueryString(data)).then((response) => {
             this.requesting = false;
             this.response = this.$helper.getProp(response, this.responseKey);
           }).catch(() => {

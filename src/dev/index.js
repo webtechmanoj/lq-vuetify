@@ -13,6 +13,8 @@ import 'croppie/croppie.css' // import the croppie css manually
 import lqVuetify from '../main'
 import 'vuetify/dist/vuetify.min.css'
 
+import helper from 'vuejs-object-helper'
+Object.defineProperty(Vue.prototype, '$helper',   {value: helper});
 Vue.use(VueCroppie)
 Vue.use(lqVuetify)
 

@@ -65,6 +65,7 @@
           <v-flex xs12 sm12 md12>
             <lq-v-autocomplete
                 id="autocomplete"
+                :master-of="['combobox']"
                 :loading="loading"
                 :options="items2"
                 :search-input.sync="search"
@@ -81,9 +82,7 @@
           <v-flex xs12 sm12 md12>
             <lq-v-combobox
                 id="combobox"
-                :loading="loading"
-                :options="items2"
-                :search-input.sync="search"
+                action="weejhkwqk"
                 hide-selected
                 hint="Maximum of 5 tags"
                 label="Add some tags"
