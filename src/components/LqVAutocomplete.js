@@ -8,15 +8,18 @@ export default Select.extend({
         }
     },
     methods: {
-    	customEvents() {
-    		return {
-	    		'update:searchInput': (search) => {
-	    			if (this.fetchOnSearch && this.action && search && search !== this.search) {
-			        	this.fetchDataFromServer(search);
-			        }
-			        this.search = search
-	    		}
-	    	}
-    	}
+        customEvents() {
+            return {
+                'update:searchInput': (search) => {
+                    if (!this.$refs.lqel.isSearching) {
+                        return;
+                    }
+                    if (this.fetchOnSearch && this.action && search && search !== this.search) {
+                        this.fetchDataFromServer(search);
+                    }
+                    this.search = search
+                }
+            }
+        }
     }
 })

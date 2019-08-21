@@ -1,4 +1,6 @@
 import TextField from './LqVTextField'
+import axios from 'axios';
+
 export default TextField.extend({
     name: 'lq-v-select',
     props: {
@@ -33,6 +35,7 @@ export default TextField.extend({
             response: [],
             requesting: false,
             dependencies: {},
+            cancel: null
         }
     },
     computed: {
@@ -155,28 +158,35 @@ export default TextField.extend({
             return output ? (this.$refs.lqel.multiple ? output : output[0]) : null
         },
         fetchDataFromServer(search) {
+          if (this.cancel) {
+            this.requesting = false;
+            this.cancel();
+          }
+          const CancelToken = axios.CancelToken;
           this.requesting = true;
           let data = {[this.searchKeyName]: search};
           if (this.dependencies && Object.keys(this.dependencies).length) {
             data = {...data, ...this.dependencies}
           }
-          this.$axios(this.action + '?' + this.$helper.objectToQueryString(data)).then((response) => {
+          this.$axios(
+            this.action + '?' + this.$helper.objectToQueryString(data), 
+            {
+              cancelToken: new CancelToken((c) =>  {
+                this.cancel = c;
+              })
+            }
+          ).then((response) => {
             this.requesting = false;
-            this.response = this.$helper.getProp(response, this.responseKey);
+            this.cancel = null;
+            let  items = this.$helper.getProp(response, this.responseKey, []);
+            items = items ? items : [];
+            const selectedItem = this.LQElement ? (!this.$helper.isArray(this.LQElement) ? [this.LQElement] : this.LQElement) : [];
+            items = selectedItem.concat(items);
+            this.response = items;
           }).catch(() => {
               this.requesting = false
+              this.cancel = null;
           })
-        },
-        _whenStoreValueChange (newValue) {
-          this.isNeedToUpdateStore = false;
-          const val = this.customMask ? this.customMask(newValue) : newValue
-          if (this.$refs.lqel) {
-              this.$refs.lqel.internalValue = val
-              if (val) {
-                this.$refs.lqel.cachedItems = !this.$helper.isArray(val) ? [val] : val;
-              }
-          }
-          this.isNeedToUpdateStore = true;
         }
     }
 })
