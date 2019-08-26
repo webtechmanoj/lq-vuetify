@@ -12,6 +12,9 @@
       {{fromData}}
       <lq-v-form name="test_form" :rules="rules" ref="lqForm" action="http://localhost:8080" content-type="formdata">
         <v-flex xs12 sm12>
+          <lq-v-date-range id="date_range" display-format="dd/MM/yyyy" />
+        </v-flex>
+        <v-flex xs12 sm12>
           <lq-v-text-field
             id="name"
             label="Name"
@@ -291,6 +294,7 @@ export default {
         profile: {
           path: 'https://picsum.photos/500/300?image=100'
         },
+        date_range: {start: '2019-01-01', end: '2019-03-02'},
         autocomplete: [{
           'login': 'mojombo',
           'id': 1,

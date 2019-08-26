@@ -8,14 +8,17 @@ module.exports = {
       ]
     },
     configureWebpack: config => {
-		config.externals = {
-			...config.externals,
+		const externalPackages = {
 			'axios': 'axios',
 			'validate.js': 'validate.js',
 			'vuex': 'vuex',
 			'vuejs-object-helper': 'vuejs-object-helper',
 			'vue': 'vue',
 			'lq-form': 'lq-form'
+		}
+		config.externals = {
+			...config.externals,
+			...(process.env.NODE_ENV === 'production' ? externalPackages : {})
 		}
 	}
  }

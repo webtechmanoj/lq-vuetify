@@ -10,6 +10,7 @@ import LqVCheckbox from './components/LqVCheckbox'
 import LqVRadioGroup from './components/LqVRadioGroup'
 import LqVSwitch from './components/LqVSwitch'
 import LqVMobileNumber from './components/LqVMobileNumber'
+import LqVDateRange from './components/LqVDateRange'
 
 export default {
   // The install method will be called with the Vue constructor as
@@ -26,6 +27,7 @@ export default {
     Vue.component('lq-v-radio-group', LqVRadioGroup)
     Vue.component('lq-v-switch', LqVSwitch)
     Vue.component('lq-v-mobile-number', LqVMobileNumber)
+    Vue.component('lq-v-date-range', LqVDateRange)
     // console.log('I am here to go', components.LqVAutocomplete)
     // if (components) {
     //   for (const key in components) {
