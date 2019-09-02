@@ -15,6 +15,10 @@ export default TextField.extend({
           type: Boolean,
           default: () => false
         },
+        fetchOnLoad: {
+          type: Boolean,
+          default: () => true
+        },
         responseKey: {
           type: String,
           default: () => 'data.data'
@@ -78,28 +82,23 @@ export default TextField.extend({
           const group_length = this.groups.length;
           this.groups.forEach((g, index) => {
               _options.push({header: g})
-              console.log('grouped_options[g])', grouped_options[g])
               _options = _options.concat(grouped_options[g])
               if (index > 0 && index < group_length - 1) {
                 _options.push({divider: true})
               }
           })
-          console.log(_options, '_options')
           return _options;
         }
     },
     created () {
         this.$lqForm.addProp(this.lqForm.name, this.id, 'formatter', this.formatter)
-        if (this.action) {
+        if (this.action && this.fetchOnLoad) {
           this.fetchDataFromServer('');
         }
-        this.$root.$on(`${this.lqForm.name}_${this.id}_change_dependency`, (id, value) => {
-            this.setValue(this.$refs.lqel.multiple ? [] : null, true, false)
-            this.dependencies[id] = value;
-            if (this.action) {
-              this.fetchDataFromServer('');
-            }
-        })
+        this.$root.$on(`${this.lqForm.name}_${this.id}_change_dependency`, this.masterChange)
+    },
+    beforeDestroy () {
+      this.$root.$off(`${this.lqForm.name}_${this.id}_change_dependency`);
     },
     methods: {
         onChange (val) {
@@ -187,6 +186,13 @@ export default TextField.extend({
               this.requesting = false
               this.cancel = null;
           })
+        },
+        masterChange (id, value) {
+          this.setValue(this.$refs.lqel.multiple ? [] : null, true, false)
+          this.dependencies[id] = value;
+          if (this.action) {
+            this.fetchDataFromServer('');
+          }
         }
     }
 })
