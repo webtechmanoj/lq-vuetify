@@ -1,6 +1,7 @@
 import TextField from './LqVTextField'
 import axios from 'axios';
 import cloneDeep from 'lodash/cloneDeep'
+import { isEqual } from 'lodash/core'
 
 export default TextField.extend({
     name: 'lq-v-select',
@@ -59,6 +60,9 @@ export default TextField.extend({
         items () {
           return this.action ? this.response : this.options
         },
+        myInitializeValue () {
+          return this.$helper.getProp(this.$store.state.form,`${this.lqForm.name}.initialize_values.${this.id}`, null);
+        },
         /**
          * Filter out the group name from given options
          */
@@ -111,14 +115,13 @@ export default TextField.extend({
         this.$root.$on(`${this.lqForm.name}_${this.id}_change_dependency`, this.masterChange)
     },
     beforeDestroy () {
-      this.$root.$off(`${this.lqForm.name}_${this.id}_change_dependency`);
+      this.$root.$off(`${this.lqForm.name}_${this.id}_change_dependency`, this.masterChange);
     },
     methods: {
         onChange (val) {
             this.internalChange = false
             this.$emit('change', val)
-            // this.$root.$emit()
-            this.broadCastToChild();
+            this.broadCastToChild(val);
         },
         getProps () {
             return this.defaultSelectProps();
@@ -134,8 +137,7 @@ export default TextField.extend({
                 multiple: this.multiple
             }
         },
-        broadCastToChild() {
-
+        broadCastToChild (val) {
           if (!this.masterOf) return;
           this.masterOf.map((dependency) => {
               const isString = typeof dependency === 'string'
@@ -143,7 +145,11 @@ export default TextField.extend({
               const isValueArray = this.$helper.isArray(val)
               const myVal = !isValueArray ? [val] : val; 
               const values = myVal.map(selectedItem => this.getItemValue(selectedItem))              
-              this.$root.$emit(`${this.lqForm.name}_${id}_change_dependency`, this.id, isValueArray ? values : values[0])
+              this.$root.$emit(
+                `${this.lqForm.name}_${id}_change_dependency`, 
+                this.id, 
+                isValueArray ? values : values[0]
+              )
           })
         },
         formatter () {
@@ -221,5 +227,12 @@ export default TextField.extend({
             this.fetchDataFromServer('');
           }
         }
+    },
+    watch: {
+      myInitializeValue(newVal, oldVale) {
+        if (!isEqual(newVal, oldVale)) {
+          this.broadCastToChild(newVal)
+        }
+      }
     }
 })
