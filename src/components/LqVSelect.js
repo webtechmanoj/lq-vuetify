@@ -1,5 +1,6 @@
 import TextField from './LqVTextField'
 import axios from 'axios';
+import cloneDeep from 'lodash/cloneDeep'
 
 export default TextField.extend({
     name: 'lq-v-select',
@@ -26,6 +27,18 @@ export default TextField.extend({
         searchKeyName: {
           type: String,
           default: () => 'search'
+        },
+        itemText: {
+          type: String,
+          default: () => 'name'
+        },
+        itemValue: {
+          type: String,
+          default: () => 'id'
+        },
+        multiple: {
+          type: Boolean,
+          default: () => false
         },
         groupBy: String,
         uncategorisedLabel: {
@@ -105,17 +118,7 @@ export default TextField.extend({
             this.internalChange = false
             this.$emit('change', val)
             // this.$root.$emit()
-            if (!this.masterOf) return;
-
-            this.masterOf.map((dependency) => {
-                const isString = typeof dependency === 'string'
-                const id = isString ? dependency : dependency.id
-                const isValueArray = this.$helper.isArray(val)
-                const myVal = !isValueArray ? [val] : val; 
-                const values = myVal.map(selectedItem => this.$refs.lqel.getValue(selectedItem))
-                
-                this.$root.$emit(`${this.lqForm.name}_${id}_change_dependency`, this.id, isValueArray ? values : values[0])
-            })
+            this.broadCastToChild();
         },
         getProps () {
             return this.defaultSelectProps();
@@ -125,23 +128,43 @@ export default TextField.extend({
                 ...this._defaultProps(),
                 returnObject: true,
                 items: this.finalItems,
-                loading: this.requesting
+                loading: this.requesting,
+                itemText: this.itemText,
+                itemValue: this.itemValue,
+                multiple: this.multiple
             }
         },
+        broadCastToChild() {
 
+          if (!this.masterOf) return;
+          this.masterOf.map((dependency) => {
+              const isString = typeof dependency === 'string'
+              const id = isString ? dependency : dependency.id
+              const isValueArray = this.$helper.isArray(val)
+              const myVal = !isValueArray ? [val] : val; 
+              const values = myVal.map(selectedItem => this.getItemValue(selectedItem))              
+              this.$root.$emit(`${this.lqForm.name}_${id}_change_dependency`, this.id, isValueArray ? values : values[0])
+          })
+        },
         formatter () {
-            const output = this.$refs.lqel.selectedItems.map(selectedItem => {
+
+            if (!this.LQElement) {return null}
+
+            let items = typeof this.LQElement === 'object' ? cloneDeep(this.LQElement) : this.LQElement;
+
+            items  = this.$helper.isArray(items) ? items : [items];
+            const output = items.map(selectedItem => {
               if (this.isOutputObject) {
                 if (typeof selectedItem === 'string') {
                   return {
-                    [this.$refs.lqel.itemText]: selectedItem,
+                    [this.itemText]: selectedItem,
                     new: true
                   }
                 }
                 const item = {}
                 const extraObjectKeys = this.extraObjectKeys ? Object.assign([], this.extraObjectKeys) : []
-                extraObjectKeys.push(this.$refs.lqel.itemText)
-                extraObjectKeys.push(this.$refs.lqel.itemValue)
+                extraObjectKeys.push(this.itemText)
+                extraObjectKeys.push(this.itemValue)
       
                 extraObjectKeys.forEach(extrakey => {
                   const val = selectedItem[extrakey]
@@ -151,10 +174,14 @@ export default TextField.extend({
                 })
                 return item
               } else {
-                return this.$refs.lqel.getValue(selectedItem)
+                return this.getItemValue(selectedItem);
               }
             })
-            return output ? (this.$refs.lqel.multiple ? output : output[0]) : null
+            return output ? (this.multiple ? output : output[0]) : null
+        },
+
+        getItemValue(selectedItem) {
+          return typeof selectedItem !== 'object' ? selectedItem  : (selectedItem[this.itemValue] ? selectedItem[this.itemValue] : '')
         },
         fetchDataFromServer(search) {
           if (this.cancel) {

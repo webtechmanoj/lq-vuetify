@@ -14,7 +14,9 @@ module.exports = {
 			'vuex': 'vuex',
 			'vuejs-object-helper': 'vuejs-object-helper',
 			'vue': 'vue',
-			'lq-form': 'lq-form'
+			'lq-form': 'lq-form',
+			'date-fns': 'date-fns',
+			'lodash': 'lodash',
 		}
 		config.externals = {
 			...config.externals,
