@@ -1,6 +1,6 @@
 {
   "name": "lq-vuetify",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "scripts": {
     "serve": "vue-cli-service serve src/dev/index.js",
     "build-bundle": "vue-cli-service build --target lib --name lq.vuetify src/main.js",

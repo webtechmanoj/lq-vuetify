@@ -226,22 +226,14 @@ export default TextField.extend({
           if (this.action) {
             this.fetchDataFromServer('');
           }
-        },
-        _whenStoreValueChange (newValue) {
-            this.isNeedToUpdateStore = false;
-            const val = this.customMask ? this.customMask(newValue) : newValue
-            if (this.$refs.lqel) {
-                this.$refs.lqel.internalValue = val
-                const selectedItem = val ? (!this.$helper.isArray(val) ? [val] : val) : [];
-                this.response = this.response.concat(selectedItem);
-            }
-            this.isNeedToUpdateStore = true;
         }
     },
     watch: {
       myInitializeValue(newVal, oldVale) {
         if (!isEqual(newVal, oldVale)) {
           this.broadCastToChild(newVal)
+          const selectedItem = newVal ? (!this.$helper.isArray(newVal) ? [newVal] : newVal) : [];
+          this.response = this.response.concat(selectedItem);
         }
       }
     }
