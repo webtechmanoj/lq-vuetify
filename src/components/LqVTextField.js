@@ -104,6 +104,7 @@ export default Vue.extend({
                 props: self.getProps(),
                 domProps: self.getDomProps(),
                 scopedSlots: self.$scopedSlots,
+                attrs: this._defaultAttrs(),
                 ref: 'lqel',
             },
             this.renderSlots(createElement, self.$slots)
@@ -126,6 +127,9 @@ export default Vue.extend({
             )
         },
         customEvents() {
+            return {}
+        },
+        _defaultAttrs() {
             return {}
         },
         _makeSlotReadyToRender (createElement, slots) {

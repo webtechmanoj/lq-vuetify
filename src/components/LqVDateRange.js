@@ -20,6 +20,9 @@ export default TextField.extend({
                 id: `${this.lqForm.name}.${this.id}`,
                 name: this.id,
             }
+        },
+        _defaultAttrs() {
+            return this.$attrs
         }
     }
 })
