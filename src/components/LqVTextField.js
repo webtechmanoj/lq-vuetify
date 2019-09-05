@@ -13,37 +13,37 @@ export default Vue.extend({
     data () {
         return {
             vuetifyTagName: 'v-text-field',
-            internalChange: false,
             internalValue: null,
             isNeedToUpdateStore: true
         }
     },
+    computed: {
+        myInitializeValue () {
+            return this.$helper.getProp(this.$store.state.form,`${this.lqForm.name}.initialize_values.${this.id}`, null);
+        },
+    },
     watch: {
         value: {
             handler(newValue, oldValue) {
-                if (!newValue) {
+                if (!newValue && !oldValue) {
                     return;
-                } else if ( 
-                    ((typeof newValue === 'string' || typeof newValue === 'number') && newValue !== oldValue) || 
-                    (typeof newValue === 'object' && !isEqual(newValue, oldValue))
-                
-                ) {
-                    this.internalChange = true
+                } else if (this.isNotSame(newValue, oldValue)) {
                     this._whenPropValueChange(newValue)
                 }
             },
             deep: true
         },
-        LQElement (newValue, oldValue) {
-            // console.log('I am LQElement Watch', newValue, oldValue, this.internalChange, this.id)
-            if (!newValue && !oldValue) {
-                return;
-            }else if (this.internalChange) {
-                return;
-            } else if (this.isNotSame(newValue, oldValue)) {
-                // console.log('I am LQElement Watch, My Value not same from prev.', newValue, this.id)
-                this._whenStoreValueChange(newValue)
-            }
+        myInitializeValue:{
+            handler(newValue, oldValue) {
+                // console.log('I am LQElement Watch', newValue, oldValue, this.internalChange, this.id)
+                if (!newValue && !oldValue) {
+                    return;
+                } else if (this.isNotSame(newValue, oldValue)) {
+                    // console.log('I am LQElement Watch, My Value not same from prev.', newValue, this.id)
+                    this._whenStoreValueChange(newValue)
+                }
+            },
+            deep: true
         }
     },
     created() {
@@ -70,7 +70,6 @@ export default Vue.extend({
                         self.$emit('focus', event)
                     },
                     blur: function(event) {
-                        self.internalChange = false
                         self.$emit('blur', event)
                         self.validateIfEventMatch('blur')
                     },
@@ -83,7 +82,6 @@ export default Vue.extend({
                         self.validateIfEventMatch('keypress')
                     },
                     keyup: function(event) {
-                        self.internalChange = false
                         self.$emit('keyup', event)
                         self.validateIfEventMatch('keyup')
                     },
@@ -92,10 +90,10 @@ export default Vue.extend({
                         self.validateIfEventMatch('keydown')
                     },
                     click: function(event) {
-                        // console.log('I am Click')
                         if (!self.touch) {
                             self.touchStatus(true);
                         }
+                        self.onClick(event)
                         self.$emit('click', event)
                         self.validateIfEventMatch('click')
                     },
@@ -188,15 +186,11 @@ export default Vue.extend({
         },
         onInput (value) {
             if (this.isNotSame(value, this.LQElement)) {
-                this.internalChange = true
                 this.setValue(value, true, true)
             }
-            this.$nextTick(function () {
-                this.internalChange = false
-            })
         },
+        onClick(event) {},
         onChange (event) {
-            this.internalChange = false
             this.$emit('change', event)
         },
         getClass() {
