@@ -10,6 +10,7 @@ export default Select.extend({
     methods: {
         customEvents() {
             return {
+                click: this.onClick,
                 'update:searchInput': (search) => {
                     if (!this.$refs.lqel.isSearching) {
                         return;
@@ -18,6 +19,7 @@ export default Select.extend({
                         this.fetchDataFromServer(search);
                     }
                     this.search = search
+                    this.$emit('update:searchInput', search)
                 }
             }
         }

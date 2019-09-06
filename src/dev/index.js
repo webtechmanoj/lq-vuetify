@@ -17,7 +17,7 @@ import helper from 'vuejs-object-helper'
 Object.defineProperty(Vue.prototype, '$helper',   {value: helper});
 Vue.use(VueCroppie)
 Vue.use(lqVuetify)
-import '../../node_modules/@mdi/font/css/materialdesignicons.css'
+// import '../../node_modules/@mdi/font/css/materialdesignicons.css'
 
 Vue.use(lqForm, { store })
 

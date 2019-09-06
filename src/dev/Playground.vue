@@ -85,7 +85,6 @@
           <v-flex xs12 sm12 md12>
             <lq-v-combobox
                 id="combobox"
-                action="weejhkwqk"
                 hide-selected
                 hint="Maximum of 5 tags"
                 label="Add some tags"
@@ -95,15 +94,6 @@
                 persistent-hint
                 small-chips
             >
-            <template v-slot:no-data>
-              <v-list-tile>
-                <v-list-tile-content>
-                  <v-list-tile-title>
-                    No results matching "<strong>{{ search }}</strong>". Press <kbd>enter</kbd> to create a new one
-                  </v-list-tile-title>
-                </v-list-tile-content>
-              </v-list-tile>
-            </template>
             </lq-v-combobox>
           </v-flex>
           <v-flex xs12 sm12 md12>
@@ -295,6 +285,7 @@ export default {
           path: 'https://picsum.photos/500/300?image=100'
         },
         date_range: {start: '2019-01-01', end: '2019-03-02'},
+        combobox:['eeee', 'ee'],
         autocomplete: [{
           'login': 'mojombo',
           'id': 1,

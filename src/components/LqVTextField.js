@@ -117,13 +117,7 @@ export default Vue.extend({
         },
         customEvents() {
             return {
-                click: function(event) {
-                    if (!this.touch) {
-                        this.touchStatus(true);
-                    }
-                    this.$emit('click', event)
-                    this.validateIfEventMatch('click')
-                }
+                click: this.onClick
             }
         },
         _defaultAttrs() {
@@ -147,6 +141,13 @@ export default Vue.extend({
                 this.validate();
             }
         },
+        onClick (event) {
+            if (!this.touch) {
+                this.touchStatus(true);
+            }
+            this.$emit('click', event)
+            this.validateIfEventMatch('click')
+        }, 
         getProps () {
             return this._defaultProps();
         },
@@ -171,7 +172,6 @@ export default Vue.extend({
             }
         },
         _whenStoreValueChange (newValue) {
-            // if (this.)
             this.isNeedToUpdateStore = false;
             const val = this.customMask ? this.customMask(newValue) : newValue
             if (this.$refs.lqel) {
