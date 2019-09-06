@@ -46,7 +46,7 @@ export default Vue.extend({
             }
         }
     },
-    created() {
+    created () {
         this.__init();
     },
     render: function (createElement) {
