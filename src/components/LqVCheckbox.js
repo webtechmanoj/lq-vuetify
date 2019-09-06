@@ -7,12 +7,17 @@ export default TextField.extend({
         }
     },
     methods: {
-        onInput() {
-            // console.log('I am sjdsk', this.id, v)
+        onInput () {
+        },
+        customEvents () {
+            return {}
         },
         onChange (value) {
             if (this.isNotSame(value, this.LQElement)) {
-                this.setValue(value, false, true)
+                if (!this.touch) {
+                    this.touchStatus(true);
+                }
+                this.setValue(value, true, true)
             }
         },
         __init( ) {
@@ -27,8 +32,8 @@ export default TextField.extend({
         getProps () {
             return {
                 ...this._defaultProps(),
-                inputValue: this.LQElement
+                inputValue: this.LQElement,
             }
-        },
+        }
     }
 })

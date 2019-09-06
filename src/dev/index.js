@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import App from './App'
 import Boilerplate from './Boilerplate'
-import Vuetifyt from 'vuetify'
+import Vuetify from 'vuetify'
 import VueRouter from 'vue-router'
 import router from './router'
 // import '@mdi/font/css/materialdesignicons.css'
@@ -17,15 +17,21 @@ import helper from 'vuejs-object-helper'
 Object.defineProperty(Vue.prototype, '$helper',   {value: helper});
 Vue.use(VueCroppie)
 Vue.use(lqVuetify)
-
+import '../../node_modules/@mdi/font/css/materialdesignicons.css'
 
 Vue.use(lqForm, { store })
 
 Vue.config.performance = true
 
-Vue.use(Vuetifyt)
+Vue.use(Vuetify)
+Vue.use(Vuetify, {
+  iconfont: 'mdi',
+  theme: {
+      "primary": "#000000",
+  }
+})
 Vue.use(VueRouter)
-const vuetify = new Vuetifyt({})
+const vuetify = new Vuetify({})
 Vue.component(Boilerplate.name, Boilerplate)
 
 const vm = new Vue({

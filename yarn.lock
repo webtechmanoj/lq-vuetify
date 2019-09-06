@@ -5188,10 +5188,10 @@ lower-case@^1.1.1:
   resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
   integrity sha1-miyr0bno4K6ZOkv31YdcOcQujqw=
 
-lq-form@^0.1.65:
-  version "0.1.65"
-  resolved "https://registry.yarnpkg.com/lq-form/-/lq-form-0.1.65.tgz#706f7e00a5bd3d5632fcaa9d17c0c3f77b2ced47"
-  integrity sha512-l6co67Gzj8GcTXmce+otkgwTFjRc2xEkglVQOu7XNQioiiQX78EH9abUTS2lMM+fAPyPstSdcQ4TgPypI78+Lw==
+lq-form@^0.1.66:
+  version "0.1.66"
+  resolved "https://registry.yarnpkg.com/lq-form/-/lq-form-0.1.66.tgz#f003f9b6b6a5b213431633f50f630d2e9548459f"
+  integrity sha512-P5Ago953Qcd0mqugJvGlKF6OoKJ2AbpbOGQPp9wm6cn9jlWeAKOz0erQW2XrcOt40r2yM5IDeAGhcc4wMe9gjQ==
   dependencies:
     axios "^0.19.0"
     lodash "^4.17.14"

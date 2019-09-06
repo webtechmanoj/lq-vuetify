@@ -89,14 +89,6 @@ export default Vue.extend({
                         self.$emit('keydown', event)
                         self.validateIfEventMatch('keydown')
                     },
-                    click: function(event) {
-                        if (!self.touch) {
-                            self.touchStatus(true);
-                        }
-                        self.onClick(event)
-                        self.$emit('click', event)
-                        self.validateIfEventMatch('click')
-                    },
                     ...self.customEvents()
                 },
                 props: self.getProps(),
@@ -117,7 +109,6 @@ export default Vue.extend({
             }
         },
         isNotSame(newValue, oldValue) {
-            // console.log('Is NOt Same', typeof newValue , this.id, newValue, oldValue)
             return (
                 (!newValue && oldValue) ||
                 ((typeof newValue === 'string' || typeof newValue === 'number') && newValue !== oldValue) || 
@@ -125,7 +116,15 @@ export default Vue.extend({
             )
         },
         customEvents() {
-            return {}
+            return {
+                click: function(event) {
+                    if (!this.touch) {
+                        this.touchStatus(true);
+                    }
+                    this.$emit('click', event)
+                    this.validateIfEventMatch('click')
+                }
+            }
         },
         _defaultAttrs() {
             return {}
@@ -189,7 +188,6 @@ export default Vue.extend({
                 this.setValue(value, true, true)
             }
         },
-        onClick(event) {},
         onChange (event) {
             this.$emit('change', event)
         },
