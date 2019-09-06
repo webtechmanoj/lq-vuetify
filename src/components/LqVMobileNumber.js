@@ -80,12 +80,8 @@ export default TextField.extend({
             const mobile_number = this._getOnlyMobileNumber(this.LQElement);
             const calling_code = this._getOnlyCallingCode(this.LQElement);
             if (this.isNotSame(value, mobile_number)) {
-                this.internalChange = true
                 this.setValue(this._joinMobileCallingCode(calling_code, value), true, true)
             }
-            this.$nextTick(function () {
-                this.internalChange = false
-            })
         },
         _joinMobileCallingCode(code, mb) {
             if (!code && !mb) {
@@ -126,12 +122,8 @@ export default TextField.extend({
                             const mobile_number = self._getOnlyMobileNumber(self.LQElement);
                             const calling_code = self._getOnlyCallingCode(self.LQElement);
                             if (self.isNotSame(value, calling_code)) {
-                                self.internalChange = true
                                 self.setValue(self._joinMobileCallingCode(value, mobile_number), true, true)
                             }
-                            self.$nextTick(function () {
-                                self.internalChange = false
-                            })
                         },
                         click: function(event) {
                             event.stopPropagation()
@@ -166,15 +158,11 @@ export default TextField.extend({
                 if (!calling_code && this.defaultCodeKey) {
                     const default_code = this.$helper.getProp(response, this.defaultCodeKey);
                     this.codeInternalValue = default_code;
-                    this.internalChange = true
                     this.setValue(
                         this._joinMobileCallingCode(default_code, mobile_number), 
                         false, 
                         false
                     )
-                    this.$nextTick(function () {
-                        this.internalChange = false
-                    })
                 }
             }).catch(() => {this.loading = false})
         }

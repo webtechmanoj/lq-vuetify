@@ -7,15 +7,17 @@ export default TextField.extend({
         }
     },
     methods: {
-        onInput() {},
+        onInput(v) {
+            console.log('I am sjdsk', v, this.id)
+        },
         onChange (value) {
             if (this.isNotSame(value, this.LQElement)) {
-                this.internalChange = true
+                if (!this.touch) {
+                    this.touchStatus(true);
+                }
                 this.setValue(value, false, true)
+                
             }
-            this.$nextTick(function () {
-                this.internalChange = false
-            })
         },
         __init( ) {
             if (this.LQElement) {
@@ -23,8 +25,9 @@ export default TextField.extend({
             }
             this.internalValue = this.value;
         },
-        _whenPropValueChange (newValue) {
+        _whenPropValueChange () {
             this.internalValue = this.value;
         }
+        
     }
 })

@@ -1,7 +1,6 @@
 import TextField from './LqVTextField'
 import axios from 'axios';
 import cloneDeep from 'lodash/cloneDeep'
-import { isEqual } from 'lodash/core'
 
 export default TextField.extend({
     name: 'lq-v-select',
@@ -60,9 +59,6 @@ export default TextField.extend({
         items () {
           return this.action ? this.response : this.options
         },
-        myInitializeValue () {
-          return this.$helper.getProp(this.$store.state.form,`${this.lqForm.name}.initialize_values.${this.id}`, null);
-        },
         /**
          * Filter out the group name from given options
          */
@@ -119,37 +115,36 @@ export default TextField.extend({
     },
     methods: {
         onChange (val) {
-            this.internalChange = false
-            this.$emit('change', val)
-            this.broadCastToChild(val);
+          this.$emit('change', val)
+          this.broadCastToChild(val);
         },
         getProps () {
             return this.defaultSelectProps();
         },
         defaultSelectProps() {
-            return {
-                ...this._defaultProps(),
-                returnObject: true,
-                items: this.finalItems,
-                loading: this.requesting,
-                itemText: this.itemText,
-                itemValue: this.itemValue,
-                multiple: this.multiple
-            }
+          return {
+            ...this._defaultProps(),
+            returnObject: true,
+            items: this.finalItems,
+            loading: this.requesting,
+            itemText: this.itemText,
+            itemValue: this.itemValue,
+            multiple: this.multiple
+          }
         },
         broadCastToChild (val) {
           if (!this.masterOf) return;
           this.masterOf.map((dependency) => {
-              const isString = typeof dependency === 'string'
-              const id = isString ? dependency : dependency.id
-              const isValueArray = this.$helper.isArray(val)
-              const myVal = !isValueArray ? [val] : val; 
-              const values = myVal.map(selectedItem => this.getItemValue(selectedItem))              
-              this.$root.$emit(
-                `${this.lqForm.name}_${id}_change_dependency`, 
-                this.id, 
-                isValueArray ? values : values[0]
-              )
+            const isString = typeof dependency === 'string'
+            const id = isString ? dependency : dependency.id
+            const isValueArray = this.$helper.isArray(val)
+            const myVal = !isValueArray ? [val] : val; 
+            const values = myVal.map(selectedItem => this.getItemValue(selectedItem))              
+            this.$root.$emit(
+              `${this.lqForm.name}_${id}_change_dependency`, 
+              this.id, 
+              isValueArray ? values : values[0]
+            )
           })
         },
         formatter () {
@@ -185,9 +180,19 @@ export default TextField.extend({
             })
             return output ? (this.multiple ? output : output[0]) : null
         },
-
+        _whenStoreValueChange (newValue) {
+            this.isNeedToUpdateStore = false;
+            const val = this.customMask ? this.customMask(newValue) : newValue
+            if (this.$refs.lqel) {
+            this.$refs.lqel.internalValue = val
+            }
+            this.broadCastToChild(newValue)
+            const selectedItem = newValue ? (!this.$helper.isArray(newValue) ? [newValue] : newValue) : [];
+            this.response = this.response.concat(selectedItem);
+            this.isNeedToUpdateStore = true;
+        },
         getItemValue(selectedItem) {
-          return typeof selectedItem !== 'object' ? selectedItem  : (selectedItem[this.itemValue] ? selectedItem[this.itemValue] : '')
+            return typeof selectedItem !== 'object' ? selectedItem  : (selectedItem[this.itemValue] ? selectedItem[this.itemValue] : '')
         },
         fetchDataFromServer(search) {
           if (this.cancel) {
@@ -227,14 +232,5 @@ export default TextField.extend({
             this.fetchDataFromServer('');
           }
         }
-    },
-    watch: {
-      myInitializeValue(newVal, oldVale) {
-        if (!isEqual(newVal, oldVale)) {
-          this.broadCastToChild(newVal)
-          const selectedItem = newVal ? (!this.$helper.isArray(newVal) ? [newVal] : newVal) : [];
-          this.response = this.response.concat(selectedItem);
-        }
-      }
     }
 })

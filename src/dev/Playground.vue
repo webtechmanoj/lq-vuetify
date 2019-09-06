@@ -146,7 +146,7 @@
             <lq-v-radio id="my_radio" id-index="2" value="No" label="Radio 2"/>
           </v-flex> -->
           <v-flex xs12 sm12 md12>
-            <lq-v-switch id="my_switch" value="On" label="On"/>
+            <lq-v-switch id="my_switch" color="green" value="On" :true-value="true" label="On"/>
           </v-flex>
           <v-flex xs3>
             <lq-v-file id="profile"
