@@ -184,7 +184,9 @@ export default TextField.extend({
             this.isNeedToUpdateStore = false;
             const val = this.customMask ? this.customMask(newValue) : newValue
             if (this.$refs.lqel) {
-            this.$refs.lqel.internalValue = val
+              this.$refs.lqel.internalValue = val
+            } else {
+                this.internalValue = val;
             }
             this.broadCastToChild(newValue)
             const selectedItem = newValue ? (!this.$helper.isArray(newValue) ? [newValue] : newValue) : [];

@@ -176,6 +176,8 @@ export default Vue.extend({
             const val = this.customMask ? this.customMask(newValue) : newValue
             if (this.$refs.lqel) {
                 this.$refs.lqel.internalValue = val
+            } else {
+                this.internalValue = val;
             }
             this.isNeedToUpdateStore = true;
         },
@@ -190,6 +192,17 @@ export default Vue.extend({
         },
         onChange (event) {
             this.$emit('change', event)
+        },
+        setValueOutSide (newValue) {
+        	this.isNeedToUpdateStore = false;
+        	this.setValue(newValue, true, true)
+        	const val = this.customMask ? this.customMask(newValue) : newValue
+            if (this.$refs.lqel) {
+                this.$refs.lqel.internalValue = val
+            } else {
+                this.internalValue = val;
+            }         
+            this.isNeedToUpdateStore = true;
         },
         getClass() {
             return {}
