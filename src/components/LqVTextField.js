@@ -1,16 +1,16 @@
 import Vue from 'vue'
-import { lqElementMixin } from 'lq-form'
+import { lqElementMixin, EventBus } from 'lq-form'
 import { isEqual } from 'lodash/core'
 
 export default Vue.extend({
     name: 'lq-v-text-field',
-    mixins: [ lqElementMixin ],
+    mixins: [lqElementMixin],
     props: {
         value: [Object, Array, Number, String],
         muliple: Boolean,
         customMask: Function
     },
-    data () {
+    data() {
         return {
             vuetifyTagName: 'v-text-field',
             internalValue: null,
@@ -18,8 +18,8 @@ export default Vue.extend({
         }
     },
     computed: {
-        myInitializeValue () {
-            return this.$helper.getProp(this.$store.state.form,`${this.lqForm.name}.initialize_values.${this.id}`, null);
+        myInitializeValue() {
+            return this.$helper.getProp(this.$store.state.form, `${this.lqForm.name}.initialize_values.${this.id}`, null);
         },
     },
     watch: {
@@ -33,7 +33,7 @@ export default Vue.extend({
             },
             deep: true
         },
-        myInitializeValue:{
+        myInitializeValue: {
             handler(newValue, oldValue) {
                 // console.log('I am LQElement Watch', newValue, oldValue, this.internalChange, this.id)
                 if (!newValue && !oldValue) {
@@ -46,19 +46,19 @@ export default Vue.extend({
             deep: true
         }
     },
-    created () {
+    created() {
         this.__init();
     },
     render: function (createElement) {
         let self = this;
         // console.log('self.getProps()', this.id, self.customMask)
         return createElement(
-            this.vuetifyTagName, 
+            this.vuetifyTagName,
             {
                 class: this.getClass(),
                 on: {
                     ...self.$listeners,
-                    input: function (value) {                         
+                    input: function (value) {
                         if (self.isNeedToUpdateStore) {
                             self.onInput(value)
                         }
@@ -69,23 +69,23 @@ export default Vue.extend({
                         }
                         self.$emit('focus', event)
                     },
-                    blur: function(event) {
+                    blur: function (event) {
                         self.$emit('blur', event)
                         self.validateIfEventMatch('blur')
                     },
-                    change: function(event) {
+                    change: function (event) {
                         // self.isNeedToUpdateStore = true
                         self.onChange(event)
                     },
-                    keypress: function(event) {
+                    keypress: function (event) {
                         self.$emit('keypress', event)
                         self.validateIfEventMatch('keypress')
                     },
-                    keyup: function(event) {
+                    keyup: function (event) {
                         self.$emit('keyup', event)
                         self.validateIfEventMatch('keyup')
                     },
-                    keydown: function(event) {
+                    keydown: function (event) {
                         self.$emit('keydown', event)
                         self.validateIfEventMatch('keydown')
                     },
@@ -101,19 +101,30 @@ export default Vue.extend({
         )
     },
     methods: {
-        __init( ) {
+        __init() {
             if (this.value) {
                 this._whenPropValueChange(this.value)
             } else if (this.LQElement) {
                 this._whenStoreValueChange(this.LQElement)
             }
+            EventBus.$on(`${this.lqForm.name}.${this.id}.update`, this.whenStoreValueUpdateDirectly)
         },
         isNotSame(newValue, oldValue) {
             return (
                 (!newValue && oldValue) ||
-                ((typeof newValue === 'string' || typeof newValue === 'number') && newValue !== oldValue) || 
+                ((typeof newValue === 'string' || typeof newValue === 'number') && newValue !== oldValue) ||
                 (typeof newValue === 'object' && !isEqual(newValue, oldValue))
             )
+        },
+        whenStoreValueUpdateDirectly(newValue) {
+            this.isNeedToUpdateStore = false;
+            const val = this.customMask ? this.customMask(newValue) : newValue
+            if (this.$refs.lqel) {
+                this.$refs.lqel.internalValue = val
+            } else {
+                this.internalValue = val;
+            }
+            this.isNeedToUpdateStore = true;
         },
         customEvents() {
             return {
@@ -123,38 +134,38 @@ export default Vue.extend({
         _defaultAttrs() {
             return {}
         },
-        _makeSlotReadyToRender (createElement, slots) {
+        _makeSlotReadyToRender(createElement, slots) {
             const slotNames = Object.keys(slots);
             return slotNames.map(
                 slotName => createElement(
-                    'template', 
-                    { slot: slotName }, 
+                    'template',
+                    { slot: slotName },
                     slots[slotName]
                 )
             )
         },
-        renderSlots (createElement, slots) {
+        renderSlots(createElement, slots) {
             return this._makeSlotReadyToRender(createElement, slots);
         },
-        validateIfEventMatch (eventName) {
+        validateIfEventMatch(eventName) {
             if (this.validateOnEvent === eventName) {
                 this.validate();
             }
         },
-        onClick (event) {
+        onClick(event) {
             if (!this.touch) {
                 this.touchStatus(true);
             }
             this.$emit('click', event)
             this.validateIfEventMatch('click')
-        }, 
-        getProps () {
+        },
+        getProps() {
             return this._defaultProps();
         },
-        getDomProps () {
+        getDomProps() {
             return this._defaultDomProps();
         },
-        _defaultProps () {
+        _defaultProps() {
             return {
                 ...this.$attrs,
                 disabled: this.disabled,
@@ -166,12 +177,12 @@ export default Vue.extend({
                 muliple: this.muliple
             }
         },
-        _defaultDomProps () {
+        _defaultDomProps() {
             return {
-                
+
             }
         },
-        _whenStoreValueChange (newValue) {
+        _whenStoreValueChange(newValue) {
             this.isNeedToUpdateStore = false;
             const val = this.customMask ? this.customMask(newValue) : newValue
             if (this.$refs.lqel) {
@@ -181,31 +192,34 @@ export default Vue.extend({
             }
             this.isNeedToUpdateStore = true;
         },
-        _whenPropValueChange (newValue) {
+        _whenPropValueChange(newValue) {
             this.setValue(newValue, true, false)
             this.internalValue = this.LQElement
         },
-        onInput (value) {
+        onInput(value) {
             if (this.isNotSame(value, this.LQElement)) {
                 this.setValue(value, true, true)
             }
         },
-        onChange (event) {
+        onChange(event) {
             this.$emit('change', event)
         },
-        setValueOutSide (newValue) {
-        	this.isNeedToUpdateStore = false;
-        	this.setValue(newValue, true, true)
-        	const val = this.customMask ? this.customMask(newValue) : newValue
+        setValueOutSide(newValue) {
+            this.isNeedToUpdateStore = false;
+            this.setValue(newValue, true, true)
+            const val = this.customMask ? this.customMask(newValue) : newValue
             if (this.$refs.lqel) {
                 this.$refs.lqel.internalValue = val
             } else {
                 this.internalValue = val;
-            }         
+            }
             this.isNeedToUpdateStore = true;
         },
         getClass() {
             return {}
         }
+    },
+    beforeDestroy () {
+        EventBus.$off(`${this.lqForm.name}.${this.id}.update`, this.whenStoreValueUpdateDirectly)
     }
 })

@@ -1,6 +1,6 @@
 {
   "name": "lq-vuetify",
-  "version": "0.0.47",
+  "version": "0.0.48",
   "scripts": {
     "serve": "vue-cli-service serve src/dev/index.js",
     "build-bundle": "vue-cli-service build --target lib --name lq.vuetify src/main.js",
@@ -12,7 +12,7 @@
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "date-fns": "^2.0.1",
-    "lq-form": "^0.1.68",
+    "lq-form": "^0.1.80",
     "mdi": "^2.2.43",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
