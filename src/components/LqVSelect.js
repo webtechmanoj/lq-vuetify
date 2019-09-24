@@ -132,7 +132,7 @@ export default TextField.extend({
             multiple: this.multiple
           }
         },
-        broadCastToChild (val) {
+        broadCastToChild (val, outside = false) {
           if (!this.masterOf) return;
           this.masterOf.map((dependency) => {
             const isString = typeof dependency === 'string'
@@ -143,7 +143,8 @@ export default TextField.extend({
             this.$root.$emit(
               `${this.lqForm.name}_${id}_change_dependency`, 
               this.id, 
-              isValueArray ? values : values[0]
+              isValueArray ? values : values[0],
+              outside
             )
           })
         },
@@ -188,10 +189,14 @@ export default TextField.extend({
             } else {
                 this.internalValue = val;
             }
-            this.broadCastToChild(newValue)
+            this.broadCastToChild(newValue, true)
             const selectedItem = newValue ? (!this.$helper.isArray(newValue) ? [newValue] : newValue) : [];
             this.response = this.response.concat(selectedItem);
             this.isNeedToUpdateStore = true;
+        },
+        setValueOutSide(newValue) {
+          TextField.options.methods.setValueOutSide(this, newValue);
+          this.broadCastToChild(newValue, true)
         },
         getItemValue(selectedItem) {
             return typeof selectedItem !== 'object' ? selectedItem  : (selectedItem[this.itemValue] ? selectedItem[this.itemValue] : '')
@@ -227,8 +232,10 @@ export default TextField.extend({
               this.cancel = null;
           })
         },
-        masterChange (id, value) {
-          this.setValue(this.$refs.lqel.multiple ? [] : null, true, false)
+        masterChange (id, value, outside) {
+          if (!outside) {
+            this.setValue(this.$refs.lqel.multiple ? [] : null, true, false)
+          }
           this.dependencies[id] = value;
           if (this.action) {
             this.fetchDataFromServer('');
