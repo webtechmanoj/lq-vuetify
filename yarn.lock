@@ -5188,10 +5188,10 @@ lower-case@^1.1.1:
   resolved "https://registry.yarnpkg.com/lower-case/-/lower-case-1.1.4.tgz#9a2cabd1b9e8e0ae993a4bf7d5875c39c42e8eac"
   integrity sha1-miyr0bno4K6ZOkv31YdcOcQujqw=
 
-lq-form@^0.1.80:
-  version "0.1.80"
-  resolved "https://registry.yarnpkg.com/lq-form/-/lq-form-0.1.80.tgz#77e8b3a5a546ef95643f0ac319cbbce1882bec90"
-  integrity sha512-H2N556hIU8fW55wD1ZOBgElieAuLOMkmCW8PPYcAsuHQa1fEz7VjipDQw+YRiz+gQfLxvqd+GJk/ciA9vEVNxw==
+lq-form@^0.1.86:
+  version "0.1.86"
+  resolved "https://registry.yarnpkg.com/lq-form/-/lq-form-0.1.86.tgz#15d75cbf98f155eaf14e1953c23d673724369c4b"
+  integrity sha512-ox6mVZYgNuLLi9P4P/x5g7wxYj0sk4135MMJFN4BeN/yngxIEvDmlydZuTRcAdUnV2sHVVpDjSdzT3nmhIwGyg==
   dependencies:
     axios "^0.19.0"
     lodash "^4.17.14"
@@ -8602,10 +8602,10 @@ vuetify-daterange-picker@^3.1.7-beta.2:
   resolved "https://registry.yarnpkg.com/vuetify-daterange-picker/-/vuetify-daterange-picker-3.1.7-beta.2.tgz#95c1b888b9494bd32fca111ca37086bd3f694d2c"
   integrity sha512-4RhToNRjnbylMtMlIYq6MtzrpcPoZoWQzjfgVc7isHuR1Qygc/cL7lU9oU1DzxC4wFX5eNStA6+XtyJ40K2N0g==
 
-vuetify@^2.0.7:
-  version "2.0.7"
-  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.0.7.tgz#a5985aca904c147e2febe4ca14e9c7ed26c4f011"
-  integrity sha512-dnW6VowHOXaq6cxYjn6RXcTWVCJnWh3ajh4e4pP84grb4Smebka6yUQSG8rSalPyFzkPeNGuXrXWVsbTAIqv7w==
+vuetify@^1.5.18:
+  version "1.5.18"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.18.tgz#1522d7ef7686b4473bb67b274ae8bb7bca514d13"
+  integrity sha512-TLtVYBlajKk+I99rUvQ7c/qlSJ3gqZZKkBaVWXy5bIDFzUyIChIIcaZM7k+J/JumxQYJqnJ9H24rAjddemWalQ==
 
 vuex@^3.0.1, vuex@^3.1.0:
   version "3.1.1"
