@@ -24,14 +24,14 @@ export default TextField.extend({
         },
         filter: Function
     },
-    data () {
+    data() {
         return {
             loading: false,
             calling_code_list: [],
             codeInternalValue: null
         }
     },
-    created () {
+    created() {
         this._fetchCallingCode()
     },
     methods: {
@@ -40,43 +40,54 @@ export default TextField.extend({
                 country_drop: true
             }
         },
-        getProps () {
+        getProps() {
             return {
                 ...this._defaultProps(),
                 loading: this.loading,
                 mask: '#############',
             }
         },
-        _whenStoreValueChange (newValue) {
-            this.$refs.lqel.internalValue = this._getOnlyMobileNumber(newValue)
-            this.$refs.cCodeEl.internalValue = this._getOnlyCallingCode(newValue)
+        _whenStoreValueChange(newValue) {
+            const mobile_number = this._getOnlyMobileNumber(newValue)
+            const code = this._getOnlyCallingCode(newValue)
+            if (this.$refs.lqel) {
+                this.$refs.lqel.internalValue = this._getOnlyMobileNumber(newValue)
+            } else {
+                this.internalValue = mobile_number
+            }
+            if (this.$refs.cCodeEl) {
+                this.$refs.cCodeEl.internalValue = code
+            } else {
+                this.codeInternalValue = code
+            }
+
         },
-        _whenPropValueChange (newValue) {
+        _whenPropValueChange(newValue) {
             this.setValue(newValue, true, false)
             this.internalValue = this._getOnlyMobileNumber(this.LQElement)
             this.codeInternalValue = this._getOnlyCallingCode(this.LQElement)
         },
         /**
          * separate the mobile number and calling code
-         */ 
-        _separateInput (input) {
+         */
+        _separateInput(input) {
             if (!input) return [];
             let slashIndex = input.indexOf('-');
-            if (slashIndex === -1 ) return [null, input];
+            if (slashIndex === -1) return [null, input];
             return [
                 input.substr(0, slashIndex),
                 input.substr(slashIndex + 1, input.length)
             ];
         },
-        _getOnlyMobileNumber (input) {
+        _getOnlyMobileNumber(input) {
             const _input_arr = this._separateInput(input);
             return typeof _input_arr[1] !== 'undefined' ? _input_arr[1] : null
         },
-        _getOnlyCallingCode (input) {
+        _getOnlyCallingCode(input) {
             const _input_arr = this._separateInput(input);
             return typeof _input_arr[0] !== 'undefined' ? _input_arr[0] : null
         },
-        onInput (value) {
+        onInput(value) {
             const mobile_number = this._getOnlyMobileNumber(this.LQElement);
             const calling_code = this._getOnlyCallingCode(this.LQElement);
             if (this.isNotSame(value, mobile_number)) {
@@ -86,7 +97,7 @@ export default TextField.extend({
         _joinMobileCallingCode(code, mb) {
             if (!code && !mb) {
                 return null;
-            } else if (code && !mb){
+            } else if (code && !mb) {
                 return code + '-';
             } else if (mb && !code) {
                 return mb;
@@ -94,7 +105,7 @@ export default TextField.extend({
                 return code + '-' + mb
             }
         },
-        renderSlots (createElement, slots) {
+        renderSlots(createElement, slots) {
             let data = this._makeSlotReadyToRender(createElement, slots);
             data.push(this._getCallingCode())
             return data;
@@ -109,10 +120,10 @@ export default TextField.extend({
             }
             return slots;
         },
-        _getCallingCode () {
-            let self  = this;
+        _getCallingCode() {
+            let self = this;
             return this.$createElement(
-                'v-autocomplete', 
+                'v-autocomplete',
                 {
                     class: {
                         calling_option: true
@@ -125,7 +136,7 @@ export default TextField.extend({
                                 self.setValue(self._joinMobileCallingCode(value, mobile_number), true, true)
                             }
                         },
-                        click: function(event) {
+                        click: function (event) {
                             event.stopPropagation()
                             self.$refs.cCodeEl.focus()
                         }
@@ -159,12 +170,12 @@ export default TextField.extend({
                     const default_code = this.$helper.getProp(response, this.defaultCodeKey);
                     this.codeInternalValue = default_code;
                     this.setValue(
-                        this._joinMobileCallingCode(default_code, mobile_number), 
-                        false, 
+                        this._joinMobileCallingCode(default_code, mobile_number),
+                        false,
                         false
                     )
                 }
-            }).catch(() => {this.loading = false})
+            }).catch(() => { this.loading = false })
         }
     }
 })
