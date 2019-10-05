@@ -48,6 +48,7 @@ export default Vue.extend({
     },
     created() {
         this.__init();
+        // console.log('I am here to Fun...')
     },
     render: function (createElement) {
         let self = this;
@@ -108,6 +109,7 @@ export default Vue.extend({
                 this._whenStoreValueChange(this.LQElement)
             }
             EventBus.$on(`${this.lqForm.name}.${this.id}.update`, this.whenStoreValueUpdateDirectly)
+            EventBus.$on(`${this.lqForm.name}.${this.id}.internalchange`, this.notifyGloballyToElement)
         },
         isNotSame(newValue, oldValue) {
             return (
@@ -199,6 +201,7 @@ export default Vue.extend({
         onInput(value) {
             if (this.isNotSame(value, this.LQElement)) {
                 this.setValue(value, true, true)
+                EventBus.$emit(`${this.lqForm.name}.${this.id}.internalchange`, value)
             }
         },
         onChange(event) {
@@ -217,9 +220,16 @@ export default Vue.extend({
         },
         getClass() {
             return {}
+        },
+        notifyGloballyToElement(newValue) {
+            if (this.$refs.lqel) {
+                this.isNotSame(newValue, this.$refs.lqel.internalValue)
+                this.$refs.lqel.internalValue = newValue
+            }
         }
     },
-    beforeDestroy () {
+    beforeDestroy() {
         EventBus.$off(`${this.lqForm.name}.${this.id}.update`, this.whenStoreValueUpdateDirectly)
+        EventBus.$off(`${this.lqForm.name}.${this.id}.internalchange`, this.notifyGloballyToElement)
     }
 })
