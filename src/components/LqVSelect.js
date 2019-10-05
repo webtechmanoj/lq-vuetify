@@ -12,6 +12,7 @@ export default TextField.extend({
             type: Boolean,
             default: () => false
         },
+        staticData: Object,
         fetchOnSearch: {
           type: Boolean,
           default: () => false
@@ -211,6 +212,9 @@ export default TextField.extend({
           let data = {[this.searchKeyName]: search};
           if (this.dependencies && Object.keys(this.dependencies).length) {
             data = {...data, ...this.dependencies}
+          }
+          if (this.staticData) {
+            data = {...data, ...this.staticData}
           }
           this.$axios(
             this.action + '?' + this.$helper.objectToQueryString(data), 
