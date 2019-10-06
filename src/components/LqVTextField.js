@@ -223,8 +223,11 @@ export default Vue.extend({
         },
         notifyGloballyToElement(newValue) {
             if (this.$refs.lqel) {
-                this.isNotSame(newValue, this.$refs.lqel.internalValue)
-                this.$refs.lqel.internalValue = newValue
+                if (this.isNotSame(newValue, this.$refs.lqel.internalValue)) {
+                    this.isNeedToUpdateStore = false;
+                    this.$refs.lqel.internalValue = newValue
+                    this.isNeedToUpdateStore = true;
+                }
             }
         }
     },
