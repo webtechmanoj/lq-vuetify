@@ -110,6 +110,8 @@ export default Vue.extend({
             }
             EventBus.$on(`${this.lqForm.name}.${this.id}.update`, this.whenStoreValueUpdateDirectly)
             EventBus.$on(`${this.lqForm.name}.${this.id}.internalchange`, this.notifyGloballyToElement)
+            EventBus.$on(`lq-form-store-update-${this.name}`, this._whenUpdateFormData)
+
         },
         isNotSame(newValue, oldValue) {
             return (
@@ -119,14 +121,7 @@ export default Vue.extend({
             )
         },
         whenStoreValueUpdateDirectly(newValue) {
-            this.isNeedToUpdateStore = false;
-            const val = this.customMask ? this.customMask(newValue) : newValue
-            if (this.$refs.lqel) {
-                this.$refs.lqel.internalValue = val
-            } else {
-                this.internalValue = val;
-            }
-            this.isNeedToUpdateStore = true;
+            this._whenStoreValueChange(newValue)
         },
         customEvents() {
             return {
@@ -194,6 +189,9 @@ export default Vue.extend({
             }
             this.isNeedToUpdateStore = true;
         },
+        _whenUpdateFormData() {
+            this._whenStoreValueChange(this.LQElement)
+        },
         _whenPropValueChange(newValue) {
             this.setValue(newValue, true, false)
             this.internalValue = this.LQElement
@@ -234,5 +232,6 @@ export default Vue.extend({
     beforeDestroy() {
         EventBus.$off(`${this.lqForm.name}.${this.id}.update`, this.whenStoreValueUpdateDirectly)
         EventBus.$off(`${this.lqForm.name}.${this.id}.internalchange`, this.notifyGloballyToElement)
+        EventBus.$off(`lq-form-store-update-${this.name}`, this._whenUpdateFormData)
     }
 })
