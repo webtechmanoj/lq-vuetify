@@ -1,4 +1,6 @@
 import TextField from './LqVTextField';
+let calling_codes = [];
+
 export default TextField.extend({
     name: 'lq-v-mobile-number',
     props: {
@@ -27,12 +29,14 @@ export default TextField.extend({
     data() {
         return {
             loading: false,
-            calling_code_list: [],
+            calling_code_list: calling_codes,
             codeInternalValue: null
         }
     },
     created() {
-        this._fetchCallingCode()
+        if (calling_codes.length === 0) {
+            this._fetchCallingCode()
+        }
     },
     methods: {
         getClass() {
@@ -153,7 +157,8 @@ export default TextField.extend({
                         singleLine: true,
                         filter: self.filter,
                         menuProp: 'auto',
-                        hideDetails: true
+                        hideDetails: true,
+                        disabled: self.disabled
                     },
                     ref: 'cCodeEl',
                 }
@@ -163,7 +168,7 @@ export default TextField.extend({
             this.loading = true
             this.axios(this.action).then((response) => {
                 this.loading = false
-                this.calling_code_list = this.$helper.getProp(response, this.responseKey, []);
+                calling_codes = this.calling_code_list = this.$helper.getProp(response, this.responseKey, []);
                 const calling_code = this._getOnlyCallingCode(this.LQElement);
                 const mobile_number = this._getOnlyMobileNumber(this.LQElement);
                 if (!calling_code && this.defaultCodeKey) {
