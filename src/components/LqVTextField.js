@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import { lqElementMixin, EventBus } from 'lq-form'
+import { lqElementMixin, EventBus, lqPermissionMixin } from 'lq-form'
 import { isEqual } from 'lodash/core'
 
 export default Vue.extend({
     name: 'lq-v-text-field',
-    mixins: [lqElementMixin],
+    mixins: [lqElementMixin, lqPermissionMixin],
     props: {
         value: [Object, Array, Number, String],
         muliple: Boolean,
@@ -52,7 +52,7 @@ export default Vue.extend({
     },
     render: function (createElement) {
         let self = this;
-        // console.log('self.getProps()', this.id, self.customMask)
+        if (!this.hasAccess) return null
         return createElement(
             this.vuetifyTagName,
             {
@@ -165,7 +165,7 @@ export default Vue.extend({
         _defaultProps() {
             return {
                 ...this.$attrs,
-                disabled: this.disabled,
+                disabled: this.isDisabled,
                 errorMessages: this.elError,
                 error: !!this.elError,
                 value: this.internalValue,

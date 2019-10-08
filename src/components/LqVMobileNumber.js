@@ -152,13 +152,13 @@ export default TextField.extend({
                         itemText: self.itemText,
                         items: self.calling_code_list,
                         value: self.codeInternalValue,
+                        disabled: self.isDisabled,
                         solo: true,
                         height: 26,
                         singleLine: true,
                         filter: self.filter,
                         menuProp: 'auto',
-                        hideDetails: true,
-                        disabled: self.disabled
+                        hideDetails: true
                     },
                     ref: 'cCodeEl',
                 }

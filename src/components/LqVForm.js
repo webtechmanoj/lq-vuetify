@@ -26,6 +26,7 @@ export default Vue.extend({
             model: this.formValues,
             errors: this.formErrors,
             push: this.push,
+            canShow: this.canShow,
             unshift: this.unshift,
             remove: this.remove,
             removeError: this.removeError,

@@ -1,18 +1,19 @@
 {
   "name": "lq-vuetify",
-  "version": "0.0.56",
+  "version": "0.0.57",
   "scripts": {
     "serve": "vue-cli-service serve src/dev/index.js",
     "build-bundle": "vue-cli-service build --target lib --name lq.vuetify src/main.js",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "license": "MIT",
   "main": "dist/lq.vuetify.umd.js",
   "dependencies": {
     "axios": "^0.19.0",
     "core-js": "^2.6.5",
     "date-fns": "^2.0.1",
-    "lq-form": "^0.1.91",
+    "lq-form": "^0.1.93",
     "mdi": "^2.2.43",
     "moment": "^2.24.0",
     "vue": "^2.6.10",
