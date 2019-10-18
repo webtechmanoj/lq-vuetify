@@ -8597,11 +8597,6 @@ vuejs-object-helper@^0.1.25:
     recursive-copy "^2.0.10"
     vue "^2.6.10"
 
-vuetify-daterange-picker@^3.1.7-beta.2:
-  version "3.1.7-beta.2"
-  resolved "https://registry.yarnpkg.com/vuetify-daterange-picker/-/vuetify-daterange-picker-3.1.7-beta.2.tgz#95c1b888b9494bd32fca111ca37086bd3f694d2c"
-  integrity sha512-4RhToNRjnbylMtMlIYq6MtzrpcPoZoWQzjfgVc7isHuR1Qygc/cL7lU9oU1DzxC4wFX5eNStA6+XtyJ40K2N0g==
-
 vuetify@^1.5.18:
   version "1.5.18"
   resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-1.5.18.tgz#1522d7ef7686b4473bb67b274ae8bb7bca514d13"
