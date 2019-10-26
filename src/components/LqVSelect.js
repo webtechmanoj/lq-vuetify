@@ -183,7 +183,7 @@ export default TextField.extend({
             })
             return output ? (this.multiple ? output : output[0]) : null
         },
-        _whenStoreValueChange(newValue) {
+        _whenStoreValueChange(newValue, outside) {
             this.isNeedToUpdateStore = false;
             const val = this.customMask ? this.customMask(newValue) : newValue
             if (this.$refs.lqel) {
@@ -191,7 +191,8 @@ export default TextField.extend({
             } else {
                 this.internalValue = val;
             }
-            this.broadCastToChild(newValue, true)
+            const _outside = outside === undefined ? true : outside
+            this.broadCastToChild(newValue, _outside)
             const selectedItem = newValue ? (!this.$helper.isArray(newValue) ? [newValue] : newValue) : [];
             this.response = this.response.concat(selectedItem);
             this.isNeedToUpdateStore = true;
@@ -201,7 +202,7 @@ export default TextField.extend({
             this.broadCastToChild(newValue, true)
         },
         getItemValue(selectedItem) {
-            return typeof selectedItem !== 'object' ? selectedItem : (selectedItem[this.itemValue] ? selectedItem[this.itemValue] : '')
+            return typeof selectedItem !== 'object' ? selectedItem : (selectedItem && selectedItem[this.itemValue] ? selectedItem[this.itemValue] : '')
         },
         fetchDataFromServer(search) {
             if (this.cancel) {
@@ -237,9 +238,17 @@ export default TextField.extend({
                 this.cancel = null;
             })
         },
-        masterChange(id, value, outside) {
-            if (!outside) {
-                this.setValue(this.$refs.lqel.multiple ? [] : null, true, false)
+        /**
+         * 
+         * @param {master el id} id 
+         * @param {Master Element Value} value 
+         * @param {Current element value should hold or not} holdSelctedValue 
+         */
+        masterChange(id, value, holdSelctedValue = false) {
+            if (!holdSelctedValue) {
+                const newVal = this.$refs.lqel.multiple ? [] : null;
+                this.setValue(newVal, true, false)
+                this._whenStoreValueChange(newVal, false)
             }
             this.dependencies[id] = value;
             if (this.action) {

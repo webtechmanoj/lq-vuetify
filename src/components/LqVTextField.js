@@ -8,7 +8,11 @@ export default Vue.extend({
     props: {
         value: [Object, Array, Number, String],
         muliple: Boolean,
-        customMask: Function
+        customMask: Function,
+        keepAlive: {
+            default: () => true,
+            type: Boolean
+        }
     },
     data() {
         return {
@@ -233,5 +237,9 @@ export default Vue.extend({
         EventBus.$off(`${this.lqForm.name}.${this.id}.update`, this.whenStoreValueUpdateDirectly)
         EventBus.$off(`${this.lqForm.name}.${this.id}.internalchange`, this.notifyGloballyToElement)
         EventBus.$off(`lq-form-store-update-${this.name}`, this._whenUpdateFormData)
+        if (!this.keepAlive) {
+            const newVal = this.$refs.lqel.multiple ? [] : null;
+            this.setValue(newVal, true, false)
+        }
     }
 })
