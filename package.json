@@ -5,13 +5,13 @@
     "serve": "vue-cli-service serve src/dev/index.js",
     "build-bundle": "vue-cli-service build --target lib --name lq.vuetify src/main.js",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "jest"
   },
   "license": "MIT",
   "main": "dist/lq.vuetify.umd.js",
   "dependencies": {
     "date-fns": "^2.0.1",
-    "lq-form": "^0.1.96",
     "moment": "^2.24.0"
   },
   "files": [
@@ -22,19 +22,57 @@
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.10.0",
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "core-js": "^2.6.5",
-    "mdi": "^2.2.43",
-    "vue-croppie": "^2.0.1",
-    "vue": "^2.6.10",
+    "@vue/test-utils": "^1.0.0-beta.29",
     "axios": "^0.19.0",
+    "babel-core": "^6.26.3",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.9.0",
+    "babel-preset-env": "^1.7.0",
+    "core-js": "^2.6.5",
+    "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
+    "jest": "^24.9.0",
+    "jsdom": "^15.2.1",
+    "jsdom-global": "^3.0.2",
+    "lq-form": "^0.1.96",
+    "mdi": "^2.2.43",
     "node-sass": "^4.9.0",
-    "vuex": "^3.0.1",
-    "vue-router": "^3.0.3",
-    "vuetify": "^1.5.18",
     "sass-loader": "^7.1.0",
-    "vue-template-compiler": "^2.6.10"
+    "validate.js": "^0.13.1",
+    "vue": "^2.6.10",
+    "vue-croppie": "^2.0.1",
+    "vue-jest": "^3.0.5",
+    "vue-router": "^3.0.3",
+    "vue-template-compiler": "^2.6.10",
+    "vuejs-object-helper": "^0.1.29",
+    "vuetify": "^1.5.18",
+    "vuex": "^3.0.1",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "moduleDirectories": [
+      "node_modules"
+    ],
+    "collectCoverage": false,
+    "collectCoverageFrom": [
+      "<rootDir>/src/components/**/*.{js,vue}",
+      "!**/node_modules/**"
+    ],
+    "transform": {
+      ".*\\.(vue)$": "vue-jest",
+      "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+    },
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/src/$1",
+      "vuejs-object-helper": "<rootDir>/node_modules/vuejs-object-helper/dist/lq.helper.umd.js"
+    },
+    "setupFiles": [
+      "<rootDir>/jest/global.js"
+    ]
   }
 }

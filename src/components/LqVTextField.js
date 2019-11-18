@@ -133,7 +133,9 @@ export default Vue.extend({
             }
         },
         _defaultAttrs() {
-            return {}
+            return {
+                id: `${this.lqForm.name}.${this.id}`,
+            }
         },
         _makeSlotReadyToRender(createElement, slots) {
             const slotNames = Object.keys(slots);
@@ -173,15 +175,12 @@ export default Vue.extend({
                 errorMessages: this.elError,
                 error: !!this.elError,
                 value: this.internalValue,
-                id: `${this.lqForm.name}.${this.id}`,
                 name: this.id,
                 muliple: this.muliple
             }
         },
         _defaultDomProps() {
-            return {
-
-            }
+            return {}
         },
         _whenStoreValueChange(newValue) {
             this.isNeedToUpdateStore = false;
