@@ -4,12 +4,12 @@ import store from '@/store'
 
 import helper from 'vuejs-object-helper'
 
-import TextField from '@/dev/test/TextField'
-import LqTextField from '@/components/LqVTextField'
+import TextField from '@/dev/test/TextArea'
+import LqTextField from '@/components/LqVTextarea'
 import LqVForm from '@/components/LqVForm'
 
 
-describe('TextField', () => {
+describe('TextArea', () => {
     
     it('Input Should has Id in format {form_name}.{field_name}', () => {
         const TextWrapper = mount(TextField, {
@@ -21,8 +21,8 @@ describe('TextField', () => {
         })
         const lqTextField = TextWrapper.find(LqTextField)
         const lqForm = TextWrapper.find(LqVForm)
-        const input = lqTextField.find(`input[id="${lqForm.props().name}.${lqTextField.props().id}"]`)
-        expect(input.is('input')).toBe(true)
+        const input = lqTextField.find(`textarea[id="${lqForm.props().name}.${lqTextField.props().id}"]`)
+        expect(input.is('textarea')).toBe(true)
     })
 
     it('when input has value propin initial [value should be update in store and dom]', () => {
@@ -36,7 +36,7 @@ describe('TextField', () => {
         })
         const lqTextField = TextWrapper.find(LqTextField)
         const lqForm = TextWrapper.find(LqVForm)
-        const input = lqTextField.find('input');
+        const input = lqTextField.find('textarea');
 
         expect(TextWrapper.vm.$store.state.form[lqForm.props().name].values[lqTextField.props().id]).toBe(lqTextField.props().value)
         expect(input.element.value).toBe(lqTextField.props().value)
@@ -52,7 +52,7 @@ describe('TextField', () => {
         })
         const lqTextField = TextWrapper.find(LqTextField)
         const lqForm = TextWrapper.find(LqVForm)
-        const input = lqTextField.find('input');
+        const input = lqTextField.find('textarea');
 
         let newValue = 'I am new value and changed after componenet created.'
         TextWrapper.setProps({ value: newValue })
@@ -76,7 +76,7 @@ describe('TextField', () => {
         })
         const lqTextField = TextWrapper.find(LqTextField)
         const lqForm = TextWrapper.find(LqVForm)
-        const input = lqTextField.find('input');
+        const input = lqTextField.find('textarea');
         const newValue = 'I am value and update in store first.'
         TextWrapper.vm.$lqForm.setElementVal(lqForm.props().name, lqTextField.props().id, newValue)
 
@@ -97,7 +97,7 @@ describe('TextField', () => {
         })
         const lqTextField = TextWrapper.find(LqTextField)
         const lqForm = TextWrapper.find(LqVForm)
-        const input = lqTextField.find('input');
+        const input = lqTextField.find('textarea');
         const newValue = 'Initial value';
         TextWrapper.vm.$lqForm.initializeValues(lqForm.props().name, {
             [lqTextField.props().id]: newValue

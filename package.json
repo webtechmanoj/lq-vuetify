@@ -19,6 +19,7 @@
     "src/*"
   ],
   "devDependencies": {
+    "@mdi/font": "^4.5.95",
     "@vue/cli-plugin-babel": "^3.10.0",
     "@vue/cli-plugin-eslint": "^3.10.0",
     "@vue/cli-service": "^3.10.0",
@@ -28,6 +29,7 @@
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.9.0",
     "babel-preset-env": "^1.7.0",
+    "babel-preset-minify": "^0.5.1",
     "core-js": "^2.6.5",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -58,7 +60,7 @@
     "moduleDirectories": [
       "node_modules"
     ],
-    "collectCoverage": false,
+    "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/src/components/**/*.{js,vue}",
       "!**/node_modules/**"

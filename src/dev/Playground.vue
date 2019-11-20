@@ -125,14 +125,21 @@
               hide-details
             ></lq-v-checkbox>
           </v-flex>
-          <!-- <v-flex xs12 sm12 md12>
-            <lq-v-radio id="my_radio" id-index="1" value="Yes" label="Radio 1" :hide-details="true">
-              <template v-slot:label>
-                <div>Definitely <strong class="primary--text">Duckduckgo</strong></div>
-              </template>
-            </lq-v-radio>
+          <v-flex xs12 sm12 md12>
+             <lq-v-radio-group id="my_radio">
+              <v-radio  id-index="1" value="Yes" label="Radio 1" :hide-details="true">
+                <template v-slot:label>
+                  <div>Definitely <strong class="primary--text">Duckduckgo</strong></div>
+                </template>
+              </v-radio>
+              <v-radio  id-index="2" value="No" label="Radio 2" :hide-details="true">
+                <template v-slot:label>
+                  <div>Definitely <strong class="primary--text">Duckduckgo 23</strong></div>
+                </template>
+              </v-radio>
+             </lq-v-radio-group>
           </v-flex>
-           <v-flex xs12 sm12 md12>
+           <!-- <v-flex xs12 sm12 md12>
             <lq-v-radio id="my_radio" id-index="2" value="No" label="Radio 2"/>
           </v-flex> -->
           <v-flex xs12 sm12 md12>
