@@ -36,6 +36,7 @@ _axios.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+let Plugin = {};
 
 Plugin.install = function (Vue, options) {
     Vue.axios = _axios

@@ -6,6 +6,7 @@
                     class="v-date-range__input-field"
                     :value="inputValue"
                     readonly
+                    :id="id"
                     v-on="on"
                     :disabled="disabled"
                     :placeholder="placeholder"
@@ -84,6 +85,7 @@ import { isEqual } from 'lodash/core';
 export default {
     name: 'v-daterange',
     props: {
+        id: String,
         // Take start and end as the input. Passable via v-model.
         value: {
             type: Object,

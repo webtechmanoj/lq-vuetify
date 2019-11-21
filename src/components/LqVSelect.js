@@ -159,7 +159,7 @@ export default TextField.extend({
             items = this.$helper.isArray(items) ? items : [items];
             const output = items.map(selectedItem => {
                 if (this.isOutputObject) {
-                    if (typeof selectedItem === 'string') {
+                    if (typeof selectedItem !== 'object') {
                         return {
                             [this.itemText]: selectedItem,
                             new: true

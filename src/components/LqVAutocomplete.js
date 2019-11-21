@@ -1,7 +1,7 @@
 import Select from './LqVSelect'
 export default Select.extend({
     name: 'lq-v-autocomplete',
-    data () {
+    data() {
         return {
             vuetifyTagName: 'v-autocomplete',
             search: ''
