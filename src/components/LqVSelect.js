@@ -186,11 +186,7 @@ export default TextField.extend({
         _whenStoreValueChange(newValue, outside) {
             this.isNeedToUpdateStore = false;
             const val = this.customMask ? this.customMask(newValue) : newValue
-            if (this.$refs.lqel) {
-                this.$refs.lqel.internalValue = val
-            } else {
-                this.internalValue = val;
-            }
+            this._updateInternalValue(val)
             const _outside = outside === undefined ? true : outside
             this.broadCastToChild(newValue, _outside)
             const selectedItem = newValue ? (!this.$helper.isArray(newValue) ? [newValue] : newValue) : [];

@@ -18,7 +18,8 @@ export default Vue.extend({
         return {
             vuetifyTagName: 'v-text-field',
             internalValue: null,
-            isNeedToUpdateStore: true
+            isNeedToUpdateStore: true,
+            internalValueKey: 'internalValue'
         }
     },
     computed: {
@@ -182,14 +183,22 @@ export default Vue.extend({
         _defaultDomProps() {
             return {}
         },
+        _updateInternalValue(val) {
+            if (this.internalValueKey && this.$refs.lqel && this.$refs.lqel[this.internalValueKey]) {
+                this.$refs.lqel[this.internalValueKey] = val
+            }
+            this.internalValue = val;
+        },
+        _getInternalValue() {
+            if (this.internalValueKey && this.$refs.lqel && this.$refs.lqel[this.internalValueKey]) {
+                return this.$refs.lqel[this.internalValueKey];
+            }
+            return this.internalValue
+        },
         _whenStoreValueChange(newValue) {
             this.isNeedToUpdateStore = false;
             const val = this.customMask ? this.customMask(newValue) : newValue
-            if (this.$refs.lqel) {
-                this.$refs.lqel.internalValue = val
-            } else {
-                this.internalValue = val;
-            }
+            this._updateInternalValue(val)
             this.isNeedToUpdateStore = true;
         },
         _whenUpdateFormData() {
@@ -212,11 +221,7 @@ export default Vue.extend({
             this.isNeedToUpdateStore = false;
             this.setValue(newValue, true, true)
             const val = this.customMask ? this.customMask(newValue) : newValue
-            if (this.$refs.lqel) {
-                this.$refs.lqel.internalValue = val
-            } else {
-                this.internalValue = val;
-            }
+            this._updateInternalValue(val)
             this.isNeedToUpdateStore = true;
         },
         getClass() {
@@ -224,9 +229,10 @@ export default Vue.extend({
         },
         notifyGloballyToElement(newValue) {
             if (this.$refs.lqel) {
-                if (this.isNotSame(newValue, this.$refs.lqel.internalValue)) {
+                if (this.isNotSame(newValue, this._getInternalValue())) {
                     this.isNeedToUpdateStore = false;
-                    this.$refs.lqel.internalValue = newValue
+                    this._updateInternalValue(newValue);
+                    // this.$refs.lqel.internalValue = newValue
                     this.isNeedToUpdateStore = true;
                 }
             }

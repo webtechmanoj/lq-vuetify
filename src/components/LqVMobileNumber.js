@@ -54,16 +54,17 @@ export default TextField.extend({
         _whenStoreValueChange(newValue) {
             const mobile_number = this._getOnlyMobileNumber(newValue)
             const code = this._getOnlyCallingCode(newValue)
-            if (this.$refs.lqel) {
-                this.$refs.lqel.internalValue = this._getOnlyMobileNumber(newValue)
-            } else {
-                this.internalValue = mobile_number
-            }
+            this._updateInternalValue(mobile_number)
+            // if (this.$refs.lqel) {
+            //     this.$refs.lqel.internalValue = this._getOnlyMobileNumber(newValue)
+            // } else {
+            //     this.internalValue = mobile_number
+            // }
             if (this.$refs.cCodeEl) {
                 this.$refs.cCodeEl.internalValue = code
-            } else {
-                this.codeInternalValue = code
             }
+            this.codeInternalValue = code
+
 
         },
         _whenPropValueChange(newValue) {

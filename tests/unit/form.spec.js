@@ -16,14 +16,14 @@ describe('formsubmit', () => {
         const TextWrapper = mount(TextField, {
             propsData: {
                 id: 'name',
-                action: "https://medium.com/"
+                action: "http://localhost"
             },
             store,
             mocks: { '$helper': helper }
         })
         const lqForm = TextWrapper.find(LqVForm)
-        lqForm.vm.$emit('submit');
         lqForm.find('form').trigger('submit')
+
         await lqForm.vm.$nextTick()
         await new Promise((reslove) => {
             setInterval(() => {
