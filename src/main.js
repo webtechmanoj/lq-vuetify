@@ -15,7 +15,7 @@ import LqVDateRange from './components/LqVDateRange'
 export default {
   // The install method will be called with the Vue constructor as
   // the first argument, along with possible options
-  install (Vue, options) {
+  install (Vue) {
     Vue.component('lq-v-text-field', LqVTextField)
     Vue.component('lq-v-form', LqVForm)
     Vue.component('lq-v-select', LqVSelect)

@@ -9,6 +9,8 @@ module.exports = {
 			'lq-form': 'lq-form',
 			'date-fns': 'date-fns',
 			'lodash': 'lodash',
+			'lodash/core': 'lodash/core',
+			'lodash/cloneDeep': 'lodash/cloneDeep',
 		}
 		config.externals = {
 			...config.externals,
