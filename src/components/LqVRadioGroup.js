@@ -4,7 +4,7 @@ export default Checkbox.extend({
     name: 'lq-v-radio-group',
     data () {
         return {
-            vuetifyTagName: 'v-radio-group'
+            tagName: 'v-radio-group'
         }
     },
     methods: {

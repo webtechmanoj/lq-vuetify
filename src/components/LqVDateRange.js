@@ -5,7 +5,7 @@ export default TextField.extend({
     components: { VDateRange },
     data () {
         return {
-            vuetifyTagName: 'v-date-range',
+            tagName: 'v-date-range',
             internalValue: undefined,
         }
     },

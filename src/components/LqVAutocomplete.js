@@ -3,7 +3,7 @@ export default Select.extend({
     name: 'lq-v-autocomplete',
     data() {
         return {
-            vuetifyTagName: 'v-autocomplete',
+            tagName: 'v-autocomplete',
             search: ''
         }
     },

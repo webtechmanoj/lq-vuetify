@@ -3,7 +3,7 @@ export default Select.extend({
     name: 'lq-v-combobox',
     data () {
         return {
-            vuetifyTagName: 'v-combobox'
+            tagName: 'v-combobox'
         }
     }
 })

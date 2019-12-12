@@ -62,13 +62,12 @@ export default {
        return helper.getProp(this.$store.state.form,`${this.lqForm.name}.values.${this.id}`);
       },
       set: function(val) {
-        this.$refs.textInput.internalValue = val;
+        this.$refs.textInput.setValueOutSide( val);
       }
     }
   },
   methods: {
     parseDate (date) {
-      console.log('I am here ti ,', date)
       if (!date) return null;
       if(helper.isArray(date)) {
         return date.map( (d) => {

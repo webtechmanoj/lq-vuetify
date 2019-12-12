@@ -3,7 +3,7 @@ export default TextField.extend({
     name: 'lq-v-checkbox',
     data() {
         return {
-            vuetifyTagName: 'v-checkbox'
+            tagName: 'v-checkbox'
         }
     },
     methods: {
@@ -36,6 +36,18 @@ export default TextField.extend({
                 ...this._defaultProps(),
                 inputValue: this.LQElement,
             }
-        }
+        },
+        /**
+         * Update the internal Value.
+         * @param {any} newValue Element value
+         */
+        _updateInternalValue(newValue) {
+            const val = this._valueMask(newValue)
+            if (this.$refs.lqel) {
+                this.$refs.lqel.internalValue = val
+                return
+            }
+            this.internalValue = val;
+        },
     }
 })
