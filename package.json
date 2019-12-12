@@ -1,6 +1,6 @@
 {
   "name": "lq-vuetify",
-  "version": "0.0.61",
+  "version": "0.0.62",
   "scripts": {
     "serve": "vue-cli-service serve src/dev/index.js",
     "build-bundle": "vue-cli-service build --target lib --name lq.vuetify src/main.js",
@@ -65,6 +65,7 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "<rootDir>/src/components/**/*.{js,vue}",
+      "<rootDir>/src/lq-form-element-maker/**/*.{js,vue}",
       "!**/node_modules/**"
     ],
     "transform": {
