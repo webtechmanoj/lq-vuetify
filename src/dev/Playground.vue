@@ -10,7 +10,35 @@
                     action="http://localhost:8080"
                     content-type="formdata"
                 >
-                    <v-flex xs12 sm12>
+                    <v-text-field
+                        id="namejhj"
+                        @input="chala"
+                        v-lq-model
+                        value="sdqwdqwdw"
+                        v-if="show"
+                    />
+                    <v-select
+                        :items="items4"
+                        v-lq-model="{id: 'select1'}"
+                        value="Foo"
+                        label="Standard"
+                        v-if="show"
+                    />
+                    <v-checkbox
+                        id="checkbox1"
+                        v-if="show"
+                        v-lq-model="{id: 'checkbox1'}"
+                        label="Checkbox 1"
+                    ></v-checkbox>
+                    <v-checkbox id="checkbox2"  v-trap="checkbox"  label="Checkbox 1"></v-checkbox>
+                    <!--  <v-radio-group v-lq-model="{id: 'radio1'}" id="radio1">
+                        <v-radio v-for="n in 3" :key="n" :label="`Radio ${n}`" :value="n"></v-radio>
+                    </v-radio-group>
+                    <v-switch v-lq-model="{id: 'switch1'}" id="switch1" label="Switch 1:"></v-switch>-->
+                    <!-- <input type="text" value="Test My Value" id="_pp" v-lq-model v-if="show" :keep-alive="false" /> -->
+
+                    <button type="button" @click="() => show = !show">Show Hide</button>
+                    <!-- <v-flex xs12 sm12>
                         <lq-v-date-range id="date_range" display-format="dd/MM/yyyy" />
                     </v-flex>
                     <v-flex xs12 sm12>
@@ -142,9 +170,9 @@
                             </v-radio>
                         </lq-v-radio-group>
                     </v-flex>
-                    <!-- <v-flex xs12 sm12 md12>
+                    <v-flex xs12 sm12 md12>
             <lq-v-radio id="my_radio" id-index="2" value="No" label="Radio 2"/>
-                    </v-flex>-->
+                    </v-flex>
                     <v-flex xs12 sm12 md12>
                         <lq-v-switch
                             id="my_switch"
@@ -162,7 +190,7 @@
                             value-key="path"
                             :multiple="false"
                         />
-                    </v-flex>
+                    </v-flex>-->
                     <v-layout row>
                         <v-flex xs12 sm12 md12>
                             <v-btn color="info" @click="init">Initialize Data</v-btn>
@@ -182,15 +210,20 @@ import { users } from './dummyData';
 import moment from 'moment';
 import DatePicker from './DatePicker';
 import LqVFile from './lq-file';
-
+import Vue from 'vue';
 export default {
     name: 'playgroud',
     components: {
         DatePicker,
         LqVFile
     },
-    data: function() {
+    data: function( ) {
         return {
+            checkbox: true,
+            radioGroup: 1,
+            switch1: true,
+            show: true,
+            items4: ['Foo', 'Bar', 'Fizz', 'Buzz'],
             rules: {
                 name: {
                     presence: { allowEmpty: false }
@@ -276,6 +309,9 @@ export default {
         };
     },
     methods: {
+        chala(w) {
+            console.log('chala', w);
+        },
         sendMessage: function() {
             console.log('tetsytgdfh');
         },
@@ -345,6 +381,54 @@ export default {
     },
     created: function() {
         console.log('dummyData', users, this.items);
+    },
+    directives: {
+        trap: {
+            bind: function(el, binding, vnode) {
+                console.log('I am intered', vnode);
+                // Vue.set(vnode.data, 'model', {value: true})
+                // el.dataset.model = JSON.stringify({
+                //     value: true
+                // })
+
+                vnode.data.model = {
+                    value: true,
+                    expression: 'checkbox'
+                }
+                // vnode.componentInstance.$forceUpdate()
+
+                // vnode.data.init(() => {
+                //     console.log('sdsan')
+                // })
+                // console.log(model)
+                //options.model
+                // vnode.componentOptions()
+                // var event = new Event("input", { bubbles: true });
+                // el.value = true
+                // el.dispatchEvent(event);
+                // vnode.data.model = {
+                //     value: true,
+                //     callback: function() {
+                //         console.log('KHksjahdjg')
+                //     },
+                //     expression: 'checkbox'
+                // }
+                // el.setAttribute('model', )
+                // Vue.set(vnode.componentOptions.propsData, 'inputValue', true)
+                // Vue.set(vnode.componentInstance._props, 'inputValue', true)
+
+                // vnode.componentInstance.$forceUpdate()
+            }
+            // update: function(el, binding, vnode) {
+            //     vnode.data.model = {
+            //         value: true,
+            //         callback: function() {
+            //             console.log('KHksjahdjg')
+            //         },
+            //         expression: 'checkbox'
+            //     }
+            // }
+        }
     }
 };
 </script>

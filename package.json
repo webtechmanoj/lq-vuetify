@@ -37,7 +37,7 @@
     "jest-serializer-vue": "^2.0.2",
     "jsdom": "^15.2.1",
     "jsdom-global": "^3.0.2",
-    "lq-form": "^0.1.96",
+    "lq-form": "^0.1.122",
     "mdi": "^2.2.43",
     "node-sass": "^4.9.0",
     "sass-loader": "^7.1.0",
@@ -48,7 +48,7 @@
     "vue-jest": "^3.0.5",
     "vue-router": "^3.0.3",
     "vue-template-compiler": "^2.6.10",
-    "vuejs-object-helper": "^0.1.29",
+    "vuejs-object-helper": "^0.1.33",
     "vuetify": "^1.5.18",
     "vuex": "^3.0.1",
     "webpack-node-externals": "^1.7.2"

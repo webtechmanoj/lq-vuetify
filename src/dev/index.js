@@ -23,6 +23,7 @@ Vue.use(lqForm, { store })
 
 Vue.config.performance = true
 
+
 Vue.use(Vuetify, {
   iconfont: 'mdi',
   theme: {
