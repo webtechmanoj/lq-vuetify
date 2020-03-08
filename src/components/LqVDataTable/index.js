@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { lqTableOptions } from '../../defaultOptions'
+import { lqVuetifyOptions } from '../../defaultOptions'
 
 export default Vue.extend({
     name: 'lq-v-datatable',
@@ -28,16 +28,16 @@ export default Vue.extend({
         },
         keepAlive: {
             type: Boolean,
-            default: () => lqTableOptions.keepAlive
+            default: () => lqVuetifyOptions.keepAlive
         },
         defaultPageSize: {
             type: Number,
-            default: () => lqTableOptions.pageSize
+            default: () => lqVuetifyOptions.pageSize
         },
         staticData: Object,
         rowsPerPageItems: {
             type: Array,
-            default: () => lqTableOptions.rowsPerPageItems
+            default: () => lqVuetifyOptions.rowsPerPageItems
         },
         itemKey: {
             type: String,
@@ -45,11 +45,11 @@ export default Vue.extend({
         },
         keepSelected: {
             type: Boolean,
-            default: () => lqTableOptions.keepSelected
+            default: () => lqVuetifyOptions.keepSelected
         },
         autoFilter: {
             type: Boolean,
-            default: () => lqTableOptions.autoFilter
+            default: () => lqVuetifyOptions.autoFilter
         },
         selectAll: {
             type: Boolean,
@@ -57,19 +57,19 @@ export default Vue.extend({
         },
         loadingText: {
             type: String,
-            default: () => lqTableOptions.loadingText
+            default: () => lqVuetifyOptions.loadingText
         },
         noDataText: {
             type: String,
-            default: () => lqTableOptions.noDataText
+            default: () => lqVuetifyOptions.noDataText
         },
         noResultsText: {
             type: String,
-            default: () => lqTableOptions.noResultsText
+            default: () => lqVuetifyOptions.noResultsText
         },
         keepSelectedOnPageChange: {
             type: Boolean,
-            default: () => lqTableOptions.keepSelectedOnPageChange
+            default: () => lqVuetifyOptions.keepSelectedOnPageChange
         },
         otherServerData: Array,
     },
@@ -252,7 +252,7 @@ export default Vue.extend({
         },
         getTH(headers) {
             let _headers = headers.map(header => {
-                if (header.permissions && typeof lqTableOptions.can === 'function' && !lqTableOptions.can(header.permissions)) {
+                if (header.permissions && typeof lqVuetifyOptions.can === 'function' && !lqVuetifyOptions.can(header.permissions)) {
                     return null;
                 }
                 return this.$createElement('lq-v-data-table-header', {

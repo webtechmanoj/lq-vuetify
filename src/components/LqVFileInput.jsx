@@ -2,7 +2,7 @@ import Input from './LqVTextField'
 import helper from 'vuejs-object-helper'
 // import { lqFileMixin } from 'lq-form'
 export default Input.extend({
-    name: 'lq-b-form-file',
+    name: 'lq-v-file-input',
     // mixins: [lqFileMixin],
     props: {
         multiple: {

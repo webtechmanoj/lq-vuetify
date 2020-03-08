@@ -181,6 +181,8 @@
             </v-layout>
         </v-container>
         <DataTable />
+        <FileTest />
+        <!-- <FileUploadTest /> -->
     </v-app>
 </template>
 
@@ -191,10 +193,14 @@ import { users } from './dummyData';
 // import LqVFile from './lq-file';
 // import Vue from 'vue';
 import DataTable from './DataTable'
+import FileTest from './FileTest'
+import FileUploadTest from './FileUploadTest'
 export default {
     name: 'playgroud',
     components: {
-        DataTable
+        DataTable,
+        FileTest,
+        FileUploadTest
     },
     data: function() {
         return {

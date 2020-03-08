@@ -1,5 +1,5 @@
 module.exports = {
-    configureWebpack: config => {
+	configureWebpack: config => {
 		const externalPackages = {
 			'axios': 'axios',
 			'validate.js': 'validate.js',
@@ -7,6 +7,7 @@ module.exports = {
 			'vuejs-object-helper': 'vuejs-object-helper',
 			'vue': 'vue',
 			'lq-form': 'lq-form',
+			'vue-croppie': 'vue-croppie',
 			'date-fns': 'date-fns',
 			'lodash': 'lodash',
 			'lodash/core': 'lodash/core',
@@ -17,4 +18,4 @@ module.exports = {
 			...(process.env.NODE_ENV === 'production' ? externalPackages : {})
 		}
 	}
- }
+}

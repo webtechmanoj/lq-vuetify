@@ -17,7 +17,7 @@ import LqVMobileNumber from './components/LqVMobileNumber'
 import LqVDatePicker from './components/LqVDatePicker'
 import LqVTimePicker from './components/LqVTimePicker'
 import LqVColorPicker from './components/LqVColorPicker'
-import LqVFile from './components/LqVFile'
+import LqVFileInput from './components/LqVFileInput'
 import LqVSlider from './components/LqVSlider'
 import LqVRangeSlider from './components/LqVSliderRange'
 
@@ -31,14 +31,25 @@ import LqVDataTableSelect from './components/LqVDataTable/LqVDataTableSelect';
 import LqVDataTableSelectAll from './components/LqVDataTable/LqVDataTableSelectAll';
 import LqVDataTableHeader from './components/LqVDataTable/LqVDataTableHeader';
 
+/**
+ * Input File Components
+ */
+import LqVFile from './components/LqVFile'
+import LqSingleUploadFile from './components/LqVFile/LqSingleUploadFile'
+import LqVFileUpload from './components/LqVFile/LqVFileUpload'
 
-import { lqTableOptions } from './defaultOptions'
+
+import { lqVuetifyOptions } from './defaultOptions'
 
 export default {
   // The install method will be called with the Vue constructor as
   // the first argument, along with possible options
   install(Vue, options = {}) {
-    lqTableOptions.merge(options)
+    lqVuetifyOptions.merge(options)
+
+    /**
+     * Form Input Element
+     */
     Vue.component('lq-v-text-field', LqVTextField)
     Vue.component('lq-v-form', LqVForm)
     Vue.component('lq-v-select', LqVSelect)
@@ -54,14 +65,35 @@ export default {
     Vue.component('lq-v-date-picker', LqVDatePicker)
     Vue.component('lq-v-time-picker', LqVTimePicker)
     Vue.component('lq-v-color-picker', LqVColorPicker)
-    Vue.component('lq-v-file-input', LqVFile)
+    Vue.component('lq-v-file-input', LqVFileInput)
     Vue.component('lq-v-slider', LqVSlider)
     Vue.component('lq-v-range-slider', LqVRangeSlider)
 
+    /**
+     * DataTable
+     */
     Vue.component('lq-v-data-table', LqVDataTable)
     Vue.component('lq-v-pagination', LqVPagination)
     Vue.component('lq-v-data-table-select', LqVDataTableSelect)
     Vue.component('lq-v-data-table-select-all', LqVDataTableSelectAll)
     Vue.component('lq-v-data-table-header', LqVDataTableHeader)
+
+    /**
+     * Input File
+     */
+
+    Vue.component('lq-v-file', LqVFile)
+    Vue.component('lq-single-upload-file', LqSingleUploadFile)
+    Vue.component('lq-v-file-upload', LqVFileUpload)
+  }
+}
+
+window.validatejs.validators = {
+  ...window.validatejs.validators,
+  upload: function (value, rules) {
+    let message = typeof rules === 'object' && rules.message ? rules.message : 'Upload the file.'
+    if (value && value.file) {
+      return [message + '[::upload::]']
+    }
   }
 }
