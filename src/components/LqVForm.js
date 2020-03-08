@@ -9,12 +9,13 @@ export default Vue.extend({
         tag: {
             type: String,
             default: () => 'form'
-        }
+        },
+        staticData: Object
     },
     render(createElement) {
         return createElement(this.tag, {
             on: {
-                submit: e => { e.preventDefault(); this.submit() },
+                submit: e => { e.preventDefault(); this.submit(this.staticData) },
                 ...this.$listeners
             },
             // domProps: this.$attrs,
@@ -22,7 +23,11 @@ export default Vue.extend({
             attrs: Object.assign({
                 novalidate: true
             }, this.$attrs),
-        }, this.$scopedSlots.default({
+            props: {
+                tag: this.props,
+                ...this.$attrs
+            }
+        }, this.$scopedSlots.default ? this.$scopedSlots.default({
             model: this.formValues,
             errors: this.formErrors,
             push: this.push,
@@ -30,6 +35,6 @@ export default Vue.extend({
             unshift: this.unshift,
             remove: this.remove,
             removeError: this.removeError,
-        }))
+        }) : null)
     }
 })

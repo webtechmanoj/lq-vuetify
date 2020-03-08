@@ -10,34 +10,12 @@
                     action="http://localhost:8080"
                     content-type="formdata"
                 >
-                    <v-text-field
-                        id="namejhj"
-                        @input="chala"
-                        v-lq-model
-                        value="sdqwdqwdw"
-                        v-if="show"
-                    />
-                    <v-select
-                        :items="items4"
-                        v-lq-model="{id: 'select1'}"
-                        value="Foo"
-                        label="Standard"
-                        v-if="show"
-                    />
-                    <v-checkbox
-                        id="checkbox1"
-                        v-if="show"
-                        v-lq-model="{id: 'checkbox1'}"
-                        label="Checkbox 1"
-                    ></v-checkbox>
-                    <v-checkbox id="checkbox2"  v-trap="checkbox"  label="Checkbox 1"></v-checkbox>
-                    <!--  <v-radio-group v-lq-model="{id: 'radio1'}" id="radio1">
-                        <v-radio v-for="n in 3" :key="n" :label="`Radio ${n}`" :value="n"></v-radio>
-                    </v-radio-group>
-                    <v-switch v-lq-model="{id: 'switch1'}" id="switch1" label="Switch 1:"></v-switch>-->
-                    <!-- <input type="text" value="Test My Value" id="_pp" v-lq-model v-if="show" :keep-alive="false" /> -->
-
-                    <button type="button" @click="() => show = !show">Show Hide</button>
+                    <lq-v-date-picker id="my_date" container="dialog" :show-footer="true" range/>
+                     <lq-v-time-picker id="my_time" :show-footer="true"/>
+                     <lq-v-color-picker id="my_color" :show-footer="true"/>
+                     <lq-v-file-input id="my_file" multiple small-chips  />
+                     <lq-v-slider id="my_slider" />
+                     <lq-v-range-slider id="my_range_slider" />
                     <!-- <v-flex xs12 sm12>
                         <lq-v-date-range id="date_range" display-format="dd/MM/yyyy" />
                     </v-flex>
@@ -202,22 +180,23 @@
                 </lq-v-form>
             </v-layout>
         </v-container>
+        <DataTable />
     </v-app>
 </template>
 
 <script>
 import { users } from './dummyData';
-import moment from 'moment';
-import DatePicker from './DatePicker';
-import LqVFile from './lq-file';
-import Vue from 'vue';
+// import moment from 'moment';
+// import DatePicker from './DatePicker';
+// import LqVFile from './lq-file';
+// import Vue from 'vue';
+import DataTable from './DataTable'
 export default {
     name: 'playgroud',
     components: {
-        DatePicker,
-        LqVFile
+        DataTable
     },
-    data: function( ) {
+    data: function() {
         return {
             checkbox: true,
             radioGroup: 1,
@@ -328,6 +307,9 @@ export default {
             this.$lqForm.initializeValues('test_form', {
                 name: '+91-8808824424',
                 mobile_no: 23,
+                my_color: '#A82525',
+                my_slider: 40,
+                my_range_slider: [10, 30],
                 date_of_birth: '2019-01-01',
                 checkbox: [1],
                 date_of_birth2: [
@@ -336,6 +318,8 @@ export default {
                     '2019-01-03',
                     '2019-01-04'
                 ],
+                my_date: ['2020-03-01', '2020-03-10'],
+                my_time: '20:00',
                 my_switch: 'On',
                 my_radio: 'Yes',
                 profile: {
@@ -394,7 +378,7 @@ export default {
                 vnode.data.model = {
                     value: true,
                     expression: 'checkbox'
-                }
+                };
                 // vnode.componentInstance.$forceUpdate()
 
                 // vnode.data.init(() => {
