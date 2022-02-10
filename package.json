@@ -39,7 +39,7 @@
     "jsdom-global": "^3.0.2",
     "lq-form": "^0.1.122",
     "mdi": "^2.2.43",
-    "node-sass": "^4.9.0",
+    "node-sass": "^7.0.0",
     "sass-loader": "^7.1.0",
     "sinon": "^7.5.0",
     "validate.js": "^0.13.1",
