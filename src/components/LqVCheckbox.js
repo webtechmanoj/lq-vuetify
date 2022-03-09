@@ -13,7 +13,7 @@ export default TextField.extend({
             return {}
         },
         onChange(value) {
-            if (this.isNotSame(value, this.LQElement)) {
+            if ( value !== this.LQElement) {
                 if (!this.touch) {
                     this.touchStatus(true);
                 }
